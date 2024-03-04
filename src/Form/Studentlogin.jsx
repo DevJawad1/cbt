@@ -18,7 +18,7 @@ const Studentlogin = () => {
 
     const submit=()=>{
         data.map((item, i)=>{
-            if(item.username==username && item.password==password){
+            if(item.username.toLowerCase()==username.toLowerCase() && item.password.toLowerCase()==password.toLowerCase()){
                 localStorage.setItem('currentstudent', i)
                 setTimeout(() => {
                     navigate(`/student/${item.fullname}`)

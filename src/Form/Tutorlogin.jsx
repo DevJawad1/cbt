@@ -10,7 +10,7 @@ const Tutorlogin = () => {
         let getuser=JSON.parse(localStorage.tutorData)
 
         getuser.map((item, i)=>{
-            if(item.email==email && item.password==password){
+            if(item.email.toLowerCase()==email.toLowerCase() && item.password.toLowerCase()==password.toLowerCase()){
                 localStorage.setItem('currentTutor', i)
                 navigate(`/tutor/${item.fullname}`)
             }
