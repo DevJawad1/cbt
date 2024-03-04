@@ -20,9 +20,21 @@ const Studentlogin = () => {
         data.map((item, i)=>{
             if(item.username.toLowerCase()==username.toLowerCase() && item.password.toLowerCase()==password.toLowerCase()){
                 localStorage.setItem('currentstudent', i)
+                Swal.fire({
+                    title: "Good job!",
+                    text: "Login successful!",
+                    icon: "success"
+                  });
                 setTimeout(() => {
                     navigate(`/student/${item.fullname}`)
                 }, 1000);
+            }
+            else{
+                Swal.fire({
+                    title: "Good job!",
+                    text: "Student not found!",
+                    icon: "error"
+                  });
             }
         })
     }

@@ -12,7 +12,21 @@ const Tutorlogin = () => {
         getuser.map((item, i)=>{
             if(item.email.toLowerCase()==email.toLowerCase() && item.password.toLowerCase()==password.toLowerCase()){
                 localStorage.setItem('currentTutor', i)
-                navigate(`/tutor/${item.fullname}`)
+                Swal.fire({
+                    title: "Good job!",
+                    text: "Login successful!",
+                    icon: "success"
+                  });
+                  setTimeout(() => {
+                      navigate(`/tutor/${item.fullname}`)
+                  }, 1000);
+            }
+            else{
+                Swal.fire({
+                    title: "Good job!",
+                    text: "Tutor not found!",
+                    icon: "error"
+                  });
             }
         })
     }
