@@ -68,12 +68,12 @@ const Studentdsb = () => {
     const getquestion = (i) => {
         setquestionNo(i)
     }
-    const wwo = () => {
-        allqusetion.map((item, i) => {
-            setquestionNo(questionNo < questionlnght ? questionNo + 1 : questionlnght)
-            console.log(questionNo, item.question.length);
-        })
-    }
+    // const wwo = () => {
+    //     allqusetion.map((item, i) => {
+    //         setquestionNo(questionNo < questionlnght ? questionNo + 1 : questionlnght)
+    //         console.log(questionNo, item.question.length);
+    //     })
+    // }
 
     const [chooseicom, setchooseicom] = useState("")
 
@@ -99,17 +99,21 @@ const Studentdsb = () => {
     const [corrctanswer, setcorrctanswer] = useState("")
     const [inputValues, setInputValues] = useState([]);
     const [getstudentinput, setgetstudentinput] = useState([])
+    const [msg, setmsg] = useState('Are you sure you are ready to submit')
     const submit = () => {
         let getanser = JSON.parse(localStorage.answered)
 
         const filteredSovleqst = [];
         const seenQuestionNos = new Set();
 
-        for (let i = getanser.length - 1; i >= 0; i--) {
-            const item = sovleqst[i];
-            if (!seenQuestionNos.has(item.questionNo)) {
-                filteredSovleqst.unshift(item);
-                seenQuestionNos.add(item.questionNo);
+        if(getanser.length>1){
+            for (let i = getanser.length - 1; i >= 0; i--) {
+                const item = sovleqst[i];
+                console.log(item);
+                if (!seenQuestionNos.has(item.questionNo)) {
+                    filteredSovleqst.unshift(item);
+                    seenQuestionNos.add(item.questionNo);
+                }
             }
         }
         // console.log(filteredSovleqst);
@@ -139,12 +143,17 @@ const Studentdsb = () => {
             return acc;
         }, {}));
         let result = filteredSovleqst.filter(item => item.statue === "Correct")
+        let getsub=''
+        allqusetion.map((item, i)=>{
+            console.log(item);
+            getsub=item
+        })
         let studentresult = {
             studentname: id,
             result: result.length,
             correctAnswer: filteredSovleqst.filter(item => item.statue === "Correct"),
             questionNoOption: filteredArray,
-            tutor: allOption.tutor
+            subject:getsub.subject
         }
 
         if (localStorage.studentresult) {
@@ -152,7 +161,7 @@ const Studentdsb = () => {
             resultarray = getstudent
             let setresult = false
             for (let index = 0; index < getstudent.length; index++) {
-                if (getstudent[index].studentname == id) {
+                if (getstudent[index].studentname == id && getstudent[index].subject==getsub.subject) {
                     // console.log(getstudent[index].studentname);
                     break
                 }
@@ -171,9 +180,16 @@ const Studentdsb = () => {
             }
         }
         else {
+            Swal.fire({
+                title: "Good job!",
+                text: "Qusetion have been posted!",
+                icon: "success"
+              });
             resultarray.push(studentresult)
             console.log(resultarray);
             localStorage.setItem('studentresult', JSON.stringify(resultarray))
+            setsubject("")
+            setmsg("Exam submitted")
         }
     }
 
@@ -280,7 +296,7 @@ const Studentdsb = () => {
                                 </div>
                                 <div className="slide-btn d-flex gap-1 justify-content-center pt-3">
                                     <button className='border-0' onClick={() => { setquestionNo(questionNo > 0 ? questionNo - 1 : 0) }}><i className="ri-arrow-left-wide-fill"></i> Preview</button>
-                                    <button className='border-0' style={{ backgroundColor: "rgb(0,70,128)" }} onClick={wwo}><i className="ri-arrow-right-wide-fill"></i> Next</button>
+                                    <button className='border-0' style={{ backgroundColor: "rgb(0,70,128)" }} onClick={() => { questionNo<item.question.length-1?questionNo+1:item.question.length}}><i className="ri-arrow-right-wide-fill"></i> Next</button>
                                 </div>
                             </div>
                         ))
@@ -315,7 +331,7 @@ const Studentdsb = () => {
                     <div className="popsubmit">
                         <div className="board p-2">
                             <div>
-                                <p className='text-center fw-bold'>Are you sure you are ready to submit</p>
+                                <p className='text-center fw-bold'>{msg}</p>
                                 <div className="d-flex gap-3  justify-content-center">
                                     <button className='btn btn-danger' onClick={() => { setpopsubmit(false) }}>No</button>
                                     <button className='btn btn-success' onClick={submit}>Yes</button>
