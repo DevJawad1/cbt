@@ -10,11 +10,16 @@ const Studentdsb = () => {
         setsubject(category)
         console.log(subject);
     };
-    const getallSub = JSON.parse(localStorage.tutorquestion)
+
+    const getallSub = localStorage.tutorquestion?JSON.parse(localStorage.tutorquestion):""
     let realsubject=getallSub[Number(subject)]
     const [allqusetion, setallqusetion] = useState(getallSub[Number(subject)]);
     const [questionNo, setquestionNo] = useState(0)
-    
+    useEffect(()=>{
+        if(localStorage.tutorquestion){
+            set
+        }
+    })
     useEffect(()=>{
         console.log(allqusetion);
         console.log(getallSub[Number(subject)]);
@@ -24,9 +29,11 @@ const Studentdsb = () => {
     console.log(allqusetion);
     useEffect(()=>{
         console.log(allqusetion);
+       if(allqusetion){
         allqusetion.map((item, i)=>{
             console.log(item.question[questionNo]);
         })
+       }
     })
     const { id } = useParams()
 
@@ -55,11 +62,6 @@ const Studentdsb = () => {
     }
 
     const [questionlnght, setquestionlnght] = useState(null)
-    useEffect(() => {
-        allqusetion.map((item, i) => {
-            // setquestionlnght(item.question.length - 1)
-        })
-    })
 
     const getquestion = (i) => {
         setquestionNo(i)
@@ -141,7 +143,6 @@ const Studentdsb = () => {
             correctAnswer: filteredSovleqst.filter(item => item.statue === "Correct"),
             questionNoOption: filteredArray,
             tutor: allOption.tutor
-            
         }
 
         if (localStorage.studentresult) {
@@ -281,7 +282,9 @@ const Studentdsb = () => {
                                 </div>
                             </div>
                         ))
-                        :null
+                        :<div className='container shadow p-5'>
+                            <p className='text-center text-white'>No Exam for now</p>
+                        </div>
                     }
                 </div>
                 {

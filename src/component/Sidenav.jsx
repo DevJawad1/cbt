@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import logo from '../assets/gomal logo.png'
 const Sidenav = ({show}) => {
     const [getsubject, setgetsubject] = useState('')
-    const [subname, setsubname] = useState(JSON.parse(localStorage.tutorquestion))
+    const [subname, setsubname] = useState(localStorage.tutorquestion?JSON.parse(localStorage.tutorquestion):"")
     useEffect(()=>{
         if(localStorage.tutorquestion){
             let getqusetion=JSON.parse(localStorage.tutorquestion)
@@ -43,6 +43,11 @@ const Sidenav = ({show}) => {
                     <div className="d-flex gap-2">
                         <p><i class="ri-article-fill"></i></p>
                         <p>Result</p>
+                    </div>
+
+                    <div className="d-flex gap-2">
+                        <p><i class="ri-article-fill"></i></p>
+                        <p>Tutor Dashboard</p>
                     </div>
                 </div>
 
