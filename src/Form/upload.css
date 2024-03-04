@@ -1,0 +1,93 @@
+.all-question .question-div p{
+    position: relative;
+    top: 10px;
+}
+.all-question .question-div input{
+    height: 70px;
+    outline: none;   
+}
+.all-question .question-option {
+ align-items: center;  
+}
+
+.all-question .question-option input{
+    outline: none;
+    background-color: rgba(128, 128, 128, 0.08);
+    border: none !important;
+    border-bottom: 1px solid green !important ;
+}
+.all-question .question-option button{
+    height: 45px;
+}
+.all-question .question-option .pick{
+    /* background-color: navy; */
+    border: 1px solid;
+    /* color: white; */
+    width: 35px;
+    height: 30px;
+    border-radius: 50%;
+    text-align: center;
+    padding-top: 2px;
+}
+.chop{
+    background-color: navy;
+    color: white;
+}
+.question-nooption .answer-space{
+    width: 32vw;
+}
+.question-nooption .answer-space input{
+    width: 80%;
+    outline: none;
+    border: 1px solid green;
+}
+.question-nooption .answer-space button{
+    width: 20%;
+}
+.question-nooption .generate-inp {
+    border: none; outline: none;
+    height: 40px;
+    /* width:; */
+    border-bottom: 1px solid green;
+    background-color: rgba(128, 128, 128, 0.161);
+}
+.cover-question{
+    position: absolute;
+    top: 0px;
+    background-color: rgba(0, 0, 0, 0.311);
+    width: 100%;
+    height: 100%;
+}
+.board-question{
+    position: absolute;
+    width: 90%;
+    height: 90%;
+    top: 5%;
+    left: 5%;
+    background-color: white;
+}
+.board-question .qst-holder{
+    overflow-y: scroll;
+    height: 80vh;
+}
+.board-question .qst-holder::-webkit-scrollbar{
+    width: 10px;
+}
+.board-question .qst-holder::-webkit-scrollbar-thumb{
+    background-color: rgba(128, 128, 128, 0.382);
+}
+.board-question .qst-cont{
+    border: 1px solid ;
+    border-left: 10px solid ;
+    border-radius: 10px;
+}
+.alert-tutor{
+    position: absolute;
+    width: 15%;
+    border-radius: 5px;
+    height: 15%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    align-items: center;
+}

@@ -1,0 +1,211 @@
+.dashb{
+    background-color: rgb(24,27,51);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+.sidebar{
+    position: fixed;
+    top: 0px;
+    border: 1px solid;
+    width: 18%;
+    border-right: 1px solid rgba(128, 128, 128, 0.348);
+    height: 100%;
+}
+.sidebar .gomal-det{
+    align-items: center;
+}
+.sidebar .gomal-det .logo-div{
+    width: 50px;
+    height: 50px;
+    background-color: rgb(191,213,219);
+    border-radius: 50%;
+    text-align: center;
+    padding-top: 5px;
+}
+.sidebar .gomal-det .logo-div img{
+    width: 40px;
+
+}
+.sidebar .gomal-det .name-div{
+    background-color: rgb(65,67,87);
+    border-radius: 20px;
+    color: white;
+    font-size: 13px;
+    height: 35px;
+    width: 160px;
+    text-align: center;
+}
+.sidebar .router-div{
+    color: white;
+    font-size: 15px;
+}
+.sidebar .subject-div .subject{
+    color: white;
+}
+.sidebar .subject-div .subject-name{
+    color: rgb(38, 141, 238);
+    /* font-weight: bold; */
+}
+.sidebar .subject-div .current{
+    background-color: rgb(0,70,128);
+    color: white;
+    padding: 10px 10px;
+}
+.topnav{
+    border-bottom: 1px solid rgba(128, 128, 128, 0.348);;
+}
+.topnav .d-flex{
+    border-right: 1px solid gray;
+}
+.topnav .inp-holder-nav {
+    background-color: rgb(40,45,73);
+    color: white;
+    padding: 10px;
+}
+.topnav .inp-holder-nav input{
+    color: white;
+    background-color: transparent;
+    border: none; outline: none;
+}
+.topnav .inp-holder-nav .enter{
+    background-color: rgb(24,27,51);
+    text-align: center;
+    height: 25px;
+    width:50px;
+    border-radius: 8px;
+}
+.topnav .det{
+    align-items: center;
+    padding-left: 20px;
+}
+.topnav .profile-img{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: rgb(40,45,73);
+}
+.topnav .profile-det{
+    height: 30px;
+    line-height: 10px;
+    padding-left: 10px;
+    color: white;
+}
+.account-type{
+    font-size: 12px;
+    position: relative;
+    top: -7px;
+}
+
+.content{
+    position: relative;
+    left: 18%;
+    width: 82%;
+}
+.content .wit1{
+    width: 70%;
+}
+.content .wit2{
+    width: 30%;
+    background-color: rgb(40,45,73);
+    height: 60vh;
+
+}
+.content .tutor{
+    color: white;
+    line-height: 1;
+}
+.content .tutor .tutorname{
+    font-size: 12px;
+    position: relative;
+    top: -6px;
+}
+.content .question-div,.content .option-div{
+    background-color: rgb(40,45,73);
+    color: white;
+    border-radius: 10px;
+}
+.content .option-div .choose{
+    width: 30px;
+    height: 30px;
+    background-color: rgb(24,27,51);
+    text-align: center;
+    padding-top: 4px;
+    /* border-radius: 50%; */
+    font-size: 13px;
+    transition: all 0.1s ease;
+    cursor: pointer;
+}
+.choosed{
+    background-color: rgb(0,70,128) !important;
+    color: white;
+    border: 1px solid white;
+    border-radius: 50%;
+    /* transition: all 0.3s ease; */
+}
+.content .slide-btn button{
+    width: 100px;   
+    height: 40px;
+    border-radius: 3px;
+}
+.content .wit2 .d-flex{
+    height: 60vh;
+    flex-wrap: wrap;
+    width: 95%;
+}
+.scroll{
+    overflow-y: scroll;
+}
+.scroll::-webkit-scrollbar{
+    width: 10px;
+}
+.scroll::-webkit-scrollbar-thumb{
+    background-color: rgb(24,27,51);
+}
+.content .wit2 .qst-no{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: rgb(24,27,51);
+    font-size: 18px;
+    color: white;
+}
+.popsubmit{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.36);
+    top: 0px;
+}
+.popsubmit .board{
+    background-color: white;
+    position: absolute;
+    width: 0%;    
+    height: 0%;
+    overflow: scroll;
+    left:50%;
+    top: 50%;  
+    transform: translate(-50%, -50%);
+    align-items: center;
+    animation: pop 100ms linear 1 forwards;
+    border-radius: 5px;
+
+}
+.popsubmit .board::-webkit-scrollbar{
+    display: none;
+}
+.popsubmit .board button{
+    width: 30%;
+    height: 40px;
+}
+
+@keyframes pop {
+    100%{
+        width: 20%;    
+    height: 20%;
+    }
+}
+
+.tutorpage table{
+
+}
