@@ -21,7 +21,7 @@ const Tutorlogin = () => {
         <div className="tutor container w-50 p-2 shadow mt-2">
         <div className="d-flex gap-2 justify-content-center" style={{borderBottom:"1px solid"}}>
                 <img src={logo} className='sts-logo' alt="" />
-                <p className='pt-3'>Signup, Tutor only</p>
+                <p className='pt-3'>Login, Tutor only</p>
             </div>
                     <input
                         type="text"

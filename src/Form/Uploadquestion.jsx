@@ -252,10 +252,10 @@ const Uploadquestion = () => {
                                                     <p className='w-100' style={{ borderBottom: "1px solid" }}><span>{id + 1}  </span>{qst.question}</p>
                                                     <button className='btn border-success' style={{borderBottom:"1px solid"}}>Edit</button>
                                                     </div>
-                                                    <p>(A) {qst.A}</p>
-                                                    <p>(B) {qst.B}</p>
-                                                    <p>(C) {qst.C}</p>
-                                                    <p>(D) {qst.D}</p>
+                                                    <p>(A) {qst.Ao}</p>
+                                                    <p>(B) {qst.Bo}</p>
+                                                    <p>(C) {qst.Co}</p>
+                                                    <p>(D) {qst.Do}</p>
                                                 </div>
                                                 :<div>
                                                     <p>Student are going to provide answer</p>

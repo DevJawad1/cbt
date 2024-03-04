@@ -19,7 +19,7 @@ const Studentdsb = () => {
     const [questionNo, setquestionNo] = useState(0)
     useEffect(()=>{
         if(localStorage.tutorquestion){
-            set
+            // set
         }
     })
     useEffect(()=>{
@@ -285,7 +285,7 @@ const Studentdsb = () => {
                             </div>
                         ))
                         :<div className='container shadow p-5'>
-                            <p className='text-center text-white'>No Exam for now</p>
+                            <p className='text-center text-white'>Click on the subject you are doing</p>
                             <p className='text-center text-white' onClick={()=>{navi('/tutorlogin')}}>Upload qusetion</p>
                         </div>
                     }

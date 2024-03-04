@@ -30,7 +30,7 @@ const Studentlogin = () => {
     <div className='sts container p-2 shadw'>
             <div className="d-flex gap-2 justify-content-center" style={{borderBottom:"1px solid gray", alignItems:""}}>
             <img src={logo} alt="" className='sts-logo'/>
-            <p className='fs-4 text-center pt-2'>Sign up, student Only</p>
+            <p className='fs-4 text-center pt-2'>Login, student Only</p>
             </div>
                     <div className="inp-holder w-100">
                         <input type="text" placeholder='Username' onChange={(e)=>{setusername(e.target.value)}}/>
@@ -38,7 +38,7 @@ const Studentlogin = () => {
                     <div className="inp-holder w-100">
                         <input type="text" placeholder='Password' onChange={(e)=>{setpassword(e.target.value)}}/>
                     <div className="mt-1 text-center">
-                    <button className='mt-2 w-50 text-white logbtn' onClick={submit}>Sign up</button>
+                    <button className='mt-2 w-50 text-white logbtn' onClick={submit}>Login</button>
                     </div>
                 </div>
         </div>

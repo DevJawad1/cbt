@@ -22,7 +22,11 @@ const Sidenav = ({show}) => {
 
     const subid=(i)=>{
         show(i)
+    }
 
+    const [cur, setcur] = useState('')
+    const current=(i)=>{
+        setcur(i)
     }
     return (
         <div className='sidebar'>
@@ -79,8 +83,8 @@ const Sidenav = ({show}) => {
                                         <span>
                                             {
                                                 item.length?
-                                                <span className='subject'>{item[0].subject}</span>
-                                                :<span className='subject'>{item.subject}</span>
+                                                <span className={`subject ${cur==item[0].subject?"current":""}`} onClick={()=>{current(item[0].subject)}}>{item[0].subject}</span>
+                                                :<span className={`subject ${cur==item.subject?"current":""}`} onClick={()=>{current(item.subject)}}>{item.subject}</span>
                                             }
                                         </span>
                                     ))
