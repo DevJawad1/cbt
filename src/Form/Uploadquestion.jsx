@@ -150,7 +150,13 @@ const Uploadquestion = () => {
         }
         console.log(allquestion);
         myquestion.push(allquestion)
-        localStorage.setItem(`tutorquestion`, JSON.stringify(myquestion))
+        Swal.fire({
+            title: "Good job!",
+            text: "Qusetion have been posted!",
+            icon: "success"
+          });
+          localStorage.setItem(`tutorquestion`, JSON.stringify(myquestion))
+          setshowqst(false)
     }
     return (
         <div className='all-question '>
