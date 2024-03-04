@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import logo from '../assets/gomal logo.png'
+import { useNavigate } from 'react-router-dom'
 const Sidenav = ({show}) => {
+    const navi = useNavigate()
     const [getsubject, setgetsubject] = useState('')
     const [subname, setsubname] = useState(localStorage.tutorquestion?JSON.parse(localStorage.tutorquestion):"")
     useEffect(()=>{
@@ -47,7 +49,7 @@ const Sidenav = ({show}) => {
 
                     <div className="d-flex gap-2">
                         <p><i class="ri-article-fill"></i></p>
-                        <p>Tutor Dashboard</p>
+                        <p onClick={()=>{navi('/tutorlogin')}}>Tutor Dashboard</p>
                     </div>
                 </div>
 

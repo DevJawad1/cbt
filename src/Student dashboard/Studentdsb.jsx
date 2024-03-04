@@ -2,8 +2,10 @@ import React, { useEffect, useRef, useState } from 'react';
 import Topnav from '../component/Topnav';
 import Sidenav from '../component/Sidenav';
 import { useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 import './studentdsb.css'
 const Studentdsb = () => {
+    const navi=useNavigate()
     const [subject, setsubject] = useState('')
     const handleCategoryChange = (category) => {
         // let sub = Number()
@@ -284,6 +286,7 @@ const Studentdsb = () => {
                         ))
                         :<div className='container shadow p-5'>
                             <p className='text-center text-white'>No Exam for now</p>
+                            <p className='text-center text-white' onClick={()=>{navi('/tutorlogin')}}>Upload qusetion</p>
                         </div>
                     }
                 </div>
