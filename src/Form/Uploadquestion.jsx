@@ -245,7 +245,9 @@ const Uploadquestion = () => {
                                     allquestion.map((item, i) => (
                                         <div className='p-3 qst-cont mt-2 border-success'>
                                             <p>{item.question.map((qst, id) => (
-                                                <div>
+                                                
+                                                    qst.A!==""?
+                                                    <div>
                                                     <div className="d-flex justify-content-between">
                                                     <p className='w-100' style={{ borderBottom: "1px solid" }}><span>{id + 1}  </span>{qst.question}</p>
                                                     <button className='btn border-success' style={{borderBottom:"1px solid"}}>Edit</button>
@@ -255,6 +257,10 @@ const Uploadquestion = () => {
                                                     <p>(C) {qst.C}</p>
                                                     <p>(D) {qst.D}</p>
                                                 </div>
+                                                :<div>
+                                                    <p>Student are going to provide answer</p>
+                                                </div>
+                                                
                                             ))}</p>
                                         </div>
                                     ))
