@@ -10,6 +10,7 @@ import Tutorlogin from './Form/Tutorlogin'
 import Studentsignup from './Form/Studentsignup'
 import Studentlogin from './Form/Studentlogin'
 import Uploadquestion from './Form/Uploadquestion'
+import Routepage from './Routepage'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -17,6 +18,7 @@ function App() {
   return (
     <>
     <Routes>
+      <Route path='/' element={<Routepage/>}/>
       <Route path='/student/:id' element={<Studentdsb/>}/>
       <Route path='/studentsignup' element={<Studentsignup/>}/>
       <Route path='/studentlogin' element={<Studentlogin/>}/>
