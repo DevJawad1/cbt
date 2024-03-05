@@ -9,6 +9,7 @@ const Studentsignup = () => {
     const [username, setusername] = useState('')
     const [password, setpassword] = useState('')
     const [grade, setgrade] = useState('')
+    const [grade2, setgrade2] = useState('')
     const [data, setdata] = useState('')
     useEffect(() => {
         // Retrieve existing users' data from local storage if it exists
@@ -19,11 +20,36 @@ const Studentsignup = () => {
     }, []);
 
     const submit=()=>{
-        const newUser = { fullname, gender, grade, username, password };
-                const updatedData = [...data, newUser];
-                setdata(updatedData);
-                localStorage.setItem('studentData', JSON.stringify(updatedData));
-                navigate('/studentlogin')
+
+        if(grade=='JSS 1A' || grade=='JSS 1B' || grade=='JSS 1C'|| grade=='JSS 1D'){
+            setgrade2('J1')
+        }
+        else if(grade=='JSS 2A' || grade=='JSS 2B' || grade=='JSS 2C'|| grade=='JSS 2D'){
+            setgrade2('J2')
+        }
+        else if(grade=='JSS 3A' || grade=='JSS 3B' || grade=='JSS 3C'|| grade=='JSS 3D'){
+            setgrade2('J3')
+        }
+        else if(grade=='SSS 1A' || grade=='SSS 1B' || grade=='SSS 1C'|| grade=='SSS 1D'){
+            setgrade2('S1')
+        }
+        else if(grade=='SSS 2A' || grade=='SSS 2B' || grade=='SSS 2C'|| grade=='SSS 2D'){
+            setgrade2('S2')
+        }
+        else if(grade=='SSS 3A' || grade=='SSS 3B' || grade=='SSS 3C'|| grade=='SSS 3D'){
+            setgrade2('S3')
+        }
+        if(fullname==""|| gender==""|| grade==""||grade2==""|| username==""|| password==""){
+            alert("Fill evrything")
+        }
+        else{
+            const newUser = { fullname, gender, grade,grade2, username, password };
+            const updatedData = [...data, newUser];
+            setdata(updatedData);
+            console.log(grade2);
+            localStorage.setItem('studentData', JSON.stringify(updatedData));
+            navigate('/studentlogin')
+        }
 
     }
     return (
@@ -47,46 +73,53 @@ const Studentsignup = () => {
                         <input type="text" placeholder='Gender' onChange={(e)=>{setgender(e.target.value)}}/>
                     </div>
                     <div className="d-flex">
-                    <select name="" id="" className='inp-holder w-100' style={{height:"48px", outline:"none"}}  onChange={(e) => setgrade(e.target.value)} value={grade}>
+                    <select name="" id="" className='inp-holder w-100' style={{ height: "48px", outline: "none" }} onChange={(e) => setgrade(e.target.value)} value={grade}>
 
-                        <option value="" selected disabled>Junior Secondary School</option>
-                        <option value="" disabled>JSS 2</option>
-                        <option  value="1a">1A</option>
-                        <option  value="1b">1B</option>
-                        <option  value="1c">1C</option>
-                        <option  value="1d">1D</option>
+                    <option value="" selected disabled>Select Class </option>
+                            <option value="" selected>Junior Secondary School</option>
+                            <option value="" disabled>JSS 2</option>
+                            <option value="JSS 1A">JSS 1A</option>
+                            <option value="JSS 1B">JSS 1B</option>
+                            <option value="JSS 1C">JSS 1C</option>
+                            <option value="JSS 1D">JSS 1D</option>
+                            {/* <option value="J1">All JSS 1D</option> */}
 
-                        <option value="" disabled>JSS 2</option>
-                        <option  value="2a">2A</option>
-                        <option  value="2b">2B</option>
-                        <option  value="2c">2C</option>
-                        <option  value="2d">2D</option>
+                            <option value="" disabled>JSS 2</option>
+                            <option value="JSS 2A">JSS 2A</option>
+                            <option value="JSS 2B">JSS 2B</option>
+                            <option value="JSS 2C">JSS 2C</option>
+                            <option value="JSS 2D">JSS 2D</option>
+                            {/* <option value="JS 2">All JSS 2</option> */}
 
-                        <option value="" disabled>JSS 3</option>
-                        <option value="1a">3A</option>
-                        <option value="3b">3B</option>
-                        <option value="3c">3C</option>
-                        <option value="3d">3D</option>
+                            <option value="" disabled>JSS 3</option>
+                            <option value="JSS 3A">JSS 3A</option>
+                            <option value="JSS 3B">JSS 3B</option>
+                            <option value="JSS 3C">JSS 3C</option>
+                            <option value="JSS 3D">JSS 3D</option>
+                            {/* <option value="J3">All JSS 3</option> */}
 
-                        <option value="" disabled>Senior Secondary School</option>
-                        <option value="" disabled>SSS 1</option>
-                        <option value="S1a">1A</option>
-                        <option value="S1b">1B</option>
-                        <option value="S1c">1C</option>
-                        <option value="S1d">1D</option>
+                            <option value="" disabled>Senior Secondary School</option>
+                            <option value="" disabled>SSS 1</option>
+                            <option value="SSS 1A">SSS 1A</option>
+                            <option value="SSS 1B">SSS 1B</option>
+                            <option value="SSS 1C">SSS 1C</option>
+                            <option value="SSS 1D">SSS 1D</option>
+                            {/* <option value="Sl">All SSS 1</option> */}
 
-                        <option value="" disabled>SSS 2</option>
-                        <option  value="S2a">2A</option>
-                        <option  value="S2b">2B</option>
-                        <option  value="S2c">2C</option>
-                        <option  value="S2d">2D</option>
-                        
-                        <option value="" disabled>SSS 3</option>
-                        <option  value="S3a">3A</option>
-                        <option  value="S3b">3B</option>
-                        <option  value="S3c">3C</option>
-                        <option  value="S3d">3D</option>
-                    </select>
+                            <option value="" disabled>SSS 2</option>
+                            <option value="SSS 2A">SSS 2A</option>
+                            <option value="SSS 2B">SSS 2B</option>
+                            <option value="SSS 2C">SSS 2C</option>
+                            <option value="SSS 2D">SSS 2D</option>
+                            {/* <option value="S2">All SSS 2</option> */}
+
+                            <option value="" disabled>SSS 3</option>
+                            <option value="SSS 3A">SSS 3A</option>
+                            <option value="SSS 3B">SSS 3B</option>
+                            <option value="SSS 3C">SSS 3C</option>
+                            <option value="SSS 3D">SSS 3D</option>
+                            {/* <option value="S3">All SSS 3</option> */}
+                        </select>
                     </div>
                     <div className="inp-holder">
                         <input type="text" placeholder='Password' onChange={(e)=>{setpassword(e.target.value)}}/>

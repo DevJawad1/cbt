@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Topnav from '../component/Topnav';
 import Sidenav from '../component/Sidenav';
-import { useParams } from 'react-router-dom'
+import { json, useParams } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom';
 import './studentdsb.css'
 const Studentdsb = () => {
@@ -13,20 +13,21 @@ const Studentdsb = () => {
         console.log(subject);
     };
 
+    const [getstudent, setgetstudent] = useState(JSON.parse(localStorage.studentData))
+    const [curstudent, setcurstudent] = useState(localStorage.currentstudent)
+    const onestudent=getstudent[curstudent]
     const getallSub = localStorage.tutorquestion?JSON.parse(localStorage.tutorquestion):""
     let realsubject=getallSub[Number(subject)]
     const [allqusetion, setallqusetion] = useState(getallSub[Number(subject)]);
     const [questionNo, setquestionNo] = useState(0)
     useEffect(()=>{
-        if(localStorage.tutorquestion){
-            // set
-        }
+        
     })
     useEffect(()=>{
         console.log(allqusetion);
         console.log(getallSub[Number(subject)]);
         setallqusetion(getallSub[Number(subject)])
-        console.log(allqusetion);
+        // console.log(allqusetion, onestudent);
     }, [subject])
     console.log(allqusetion);
     useEffect(()=>{
@@ -296,7 +297,7 @@ const Studentdsb = () => {
                                 </div>
                                 <div className="slide-btn d-flex gap-1 justify-content-center pt-3">
                                     <button className='border-0' onClick={() => { setquestionNo(questionNo > 0 ? questionNo - 1 : 0) }}><i className="ri-arrow-left-wide-fill"></i> Preview</button>
-                                    <button className='border-0' style={{ backgroundColor: "rgb(0,70,128)" }} onClick={() => { questionNo<item.question.length-1?questionNo+1:item.question.length}}><i className="ri-arrow-right-wide-fill"></i> Next</button>
+                                    <button className='border-0' style={{ backgroundColor: "rgb(0,70,128)" }} onClick={() => { setquestionNo(questionNo<item.question.length-1?questionNo+1:item.question.length-1)}}><i className="ri-arrow-right-wide-fill"></i> Next</button>
                                 </div>
                             </div>
                         ))

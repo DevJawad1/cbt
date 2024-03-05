@@ -6,7 +6,7 @@ const Uploadquestion = () => {
     const { id } = useParams()
 
     const [allquestion, setallquestion] = useState([])
-    let myquestion=[]
+    let myquestion = []
     const [objqst, setobjqst] = useState('')
     const [question, setquestion] = useState('')
     const [optiona, setoptiona] = useState('')
@@ -16,6 +16,7 @@ const Uploadquestion = () => {
     const [subject, setsubject] = useState('')
     const [anser, setanser] = useState('')
     const [space, setspace] = useState('')
+    const [grade, setgrade] = useState('')
     const [questionno, setquestionno] = useState(1)
 
     const [noOption, setnoOption] = useState(false)
@@ -54,10 +55,12 @@ const Uploadquestion = () => {
                         tutor: id,
                         type: "Option",
                         spaces: 0,
+                        grade:grade,
+                        commence:false,
                         question: [qstobj]
                     };
                     setquestionno(questionno + 1);
-    
+
                     if (allquestion.length === 0) {
                         allquestion.push(obj);
                     } else {
@@ -68,7 +71,7 @@ const Uploadquestion = () => {
                             }
                         ]);
                     }
-    
+
                     setalert(true);
                     setTimeout(() => {
                         setalert(false);
@@ -95,10 +98,12 @@ const Uploadquestion = () => {
                 tutor: id,
                 type: "noOption",
                 spaces: space,
+                grade:grade,
+                commence:false,
                 question: [qstobj2]
             };
             setquestionno(questionno + 1);
-    
+
             if (allquestion.length === 0) {
                 allquestion.push(obj2);
             } else {
@@ -109,7 +114,7 @@ const Uploadquestion = () => {
                     }
                 ]);
             }
-    
+
             setalert(true);
             setTimeout(() => {
                 setalert(false);
@@ -117,7 +122,7 @@ const Uploadquestion = () => {
             console.log(allquestion);
         }
     }
-    
+
 
     const empty = () => {
         setquestion("")
@@ -138,13 +143,13 @@ const Uploadquestion = () => {
         setshowqst(true)
     }
 
-    const saveExam=()=>{
+    const saveExam = () => {
         // let general=[allquestion]
         // console.log(qqq);
-        if(localStorage.tutorquestion){
-            let getback= JSON.parse(localStorage.tutorquestion)
+        if (localStorage.tutorquestion) {
+            let getback = JSON.parse(localStorage.tutorquestion)
             // console.log(getback);
-            myquestion=getback
+            myquestion = getback
             console.log(myquestion);
             // allquestion.push(getback)
         }
@@ -154,9 +159,9 @@ const Uploadquestion = () => {
             title: "Good job!",
             text: "Qusetion have been posted!",
             icon: "success"
-          });
-          localStorage.setItem(`tutorquestion`, JSON.stringify(myquestion))
-          setshowqst(false)
+        });
+        localStorage.setItem(`tutorquestion`, JSON.stringify(myquestion))
+        setshowqst(false)
     }
     return (
         <div className='all-question '>
@@ -164,7 +169,56 @@ const Uploadquestion = () => {
             <div className="container shadow p-3 mt-2">
                 <div className="d-flex justify-content-between">
                     <p>Question {questionno}</p>
-                    <button className='btn border border-success' onClick={postExam}>See your qusetion </button>
+                    <div>
+                        <select name="" id="" className='inp-holder w-100' style={{ height: "48px", outline: "none" }} onChange={(e) => setgrade(e.target.value)} value={grade}>
+
+                            <option value="" selected disabled>Select Class </option>
+                            <option value="" selected>Junior Secondary School</option>
+                            <option value="" disabled>JSS 2</option>
+                            <option value="JSS 1A">JSS 1A</option>
+                            <option value="JSS 1B">JSS 1B</option>
+                            <option value="JSS 1C">JSS 1C</option>
+                            <option value="JSS 1D">JSS 1D</option>
+                            <option value="J1">All JSS 1D</option>
+
+                            <option value="" disabled>JSS 2</option>
+                            <option value="JSS 2A">JSS 2A</option>
+                            <option value="JSS 2B">JSS 2B</option>
+                            <option value="JSS 2C">JSS 2C</option>
+                            <option value="JSS 2D">JSS 2D</option>
+                            <option value="J2">All JSS 2</option>
+
+                            <option value="" disabled>JSS 3</option>
+                            <option value="JSS 3A">JSS 3A</option>
+                            <option value="JSS 3B">JSS 3B</option>
+                            <option value="JSS 3C">JSS 3C</option>
+                            <option value="JSS 3D">JSS 3D</option>
+                            <option value="J3">All JSS 3</option>
+
+                            <option value="" disabled>Senior Secondary School</option>
+                            <option value="" disabled>SSS 1</option>
+                            <option value="SSS 1A">SSS 1A</option>
+                            <option value="SSS 1B">SSS 1B</option>
+                            <option value="SSS 1C">SSS 1C</option>
+                            <option value="SSS 1D">SSS 1D</option>
+                            <option value="Sl">All SSS 1</option>
+
+                            <option value="" disabled>SSS 2</option>
+                            <option value="SSS 2A">SSS 2A</option>
+                            <option value="SSS 2B">SSS 2B</option>
+                            <option value="SSS 2C">SSS 2C</option>
+                            <option value="SSS 2D">SSS 2D</option>
+                            <option value="S2">All SSS 2</option>
+
+                            <option value="" disabled>SSS 3</option>
+                            <option value="SSS 3A">SSS 3A</option>
+                            <option value="SSS 3B">SSS 3B</option>
+                            <option value="SSS 3C">SSS 3C</option>
+                            <option value="SSS 3D">SSS 3D</option>
+                            <option value="S3">All SSS 3</option>
+                        </select>
+                    </div>
+                    <button className='btn border border-success' onClick={postExam} style={{height:"40px"}}>See your question </button>
                 </div>
                 <div className="question-div">
                     <div className="d-flex justify-content-between">
@@ -197,7 +251,7 @@ const Uploadquestion = () => {
                                 <input type="text" value={optiond} onChange={(e) => { setoptiond(e.target.value) }} className='border border-success w-100' placeholder='Opiton D' />
                             </div>
                             <div className="submt mt-4 px-5">
-                                <button className='w-100 border-0 btn btn-success' onClick={submit}>Submit</button>
+                                <button className='w-100 border-0 btn btn-success' onClick={submit}>Submit question</button>
                             </div>
                         </div>
                         :
@@ -223,7 +277,7 @@ const Uploadquestion = () => {
                                 {
                                     generatespace ?
                                         <div className="subm mt-3">
-                                            <button className='w-100 border-0 btn btn-success' onClick={submit}>Submit</button>
+                                            <button className='w-100 border-0 btn btn-success' onClick={submit}>Submit Question</button>
                                         </div>
                                         : null
                                 }
@@ -237,30 +291,30 @@ const Uploadquestion = () => {
                     <div className="cover-question">
                         <div className="board-question p-3">
                             <div className="d-flex justify-content-between">
-                            <button className='btn' onClick={() => { setshowqst(false) }}>Close</button>
-                            <button className='btn' style={{borderBottom:"1px solid"}} onClick={saveExam}>Post exam</button>
+                                <button className='btn' onClick={() => { setshowqst(false) }}>Close</button>
+                                <button className='btn' style={{ borderBottom: "1px solid" }} onClick={saveExam}>Post exam</button>
                             </div>
                             <div className="qst-holder p-2">
                                 {
                                     allquestion.map((item, i) => (
                                         <div className='p-3 qst-cont mt-2 border-success'>
                                             <p>{item.question.map((qst, id) => (
-                                                
-                                                    qst.A!==""?
+
+                                                qst.A !== "" ?
                                                     <div>
-                                                    <div className="d-flex justify-content-between">
-                                                    <p className='w-100' style={{ borderBottom: "1px solid" }}><span>{id + 1}  </span>{qst.question}</p>
-                                                    <button className='btn border-success' style={{borderBottom:"1px solid"}}>Edit</button>
+                                                        <div className="d-flex justify-content-between">
+                                                            <p className='w-100' style={{ borderBottom: "1px solid" }}><span>{id + 1}  </span>{qst.question}</p>
+                                                            <button className='btn border-success' style={{ borderBottom: "1px solid" }}>Edit</button>
+                                                        </div>
+                                                        <p>(A) {qst.Ao}</p>
+                                                        <p>(B) {qst.Bo}</p>
+                                                        <p>(C) {qst.Co}</p>
+                                                        <p>(D) {qst.Do}</p>
                                                     </div>
-                                                    <p>(A) {qst.Ao}</p>
-                                                    <p>(B) {qst.Bo}</p>
-                                                    <p>(C) {qst.Co}</p>
-                                                    <p>(D) {qst.Do}</p>
-                                                </div>
-                                                :<div>
-                                                    <p>Student are going to provide answer</p>
-                                                </div>
-                                                
+                                                    : <div>
+                                                        <p>Student are going to provide answer</p>
+                                                    </div>
+
                                             ))}</p>
                                         </div>
                                     ))

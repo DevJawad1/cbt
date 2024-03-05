@@ -9,24 +9,40 @@ const Sidenav = ({show}) => {
         if(localStorage.tutorquestion){
             let getqusetion=JSON.parse(localStorage.tutorquestion)
             setsubname(JSON.parse(localStorage.tutorquestion))
-            console.log(subname);
-
+            // console.log(subname);
             setgetsubject(getqusetion.length)
-            console.log(getsubject);
-            for (let index = 0; index < subname.length; index++) {
-                
-            }
-            // setgetsubject(getqusetion.length)
         }
     },[])
-
+    const [getstudent, setgetstudent] = useState(JSON.parse(localStorage.studentData))
+    const [curstudent, setcurstudent] = useState(localStorage.currentstudent)
+    const onestudent=getstudent[curstudent]
     const subid=(i)=>{
         show(i)
     }
-
     const [cur, setcur] = useState('')
-    const current=(i)=>{
-        setcur(i)
+    const current=(i, subject, commece, grade)=>{
+        console.log(grade);
+        if(commece==false){
+            Swal.fire({
+                title: "Cannot start exam!",
+                text: "Your teacher have not give the permission to start exam",
+                icon: "error"
+              });
+        }
+        else{
+            if(grade==onestudent.grade || grade==onestudent.grade2){
+                setcur(subject)
+                subid(i)
+            }
+            else{
+                Swal.fire({
+                    title: "Permission Denied!",
+                    text: "Available for "+grade,
+                    icon: "error"
+                  });
+            }
+        }
+        // console.log(onestudent.grade);
     }
     return (
         <div className='sidebar'>
@@ -76,15 +92,26 @@ const Sidenav = ({show}) => {
                     {
                         Array.from({ length: Number(getsubject) }, (_, index) => (
                             <div>
-                                
-                                <p onClick={()=>{subid(index)}}>{
-
+                                <p>{
                                     subname[index].map((item, i)=>(
                                         <span>
                                             {
                                                 item.length?
-                                                <span className={`subject ${cur==item[0].subject?"current":""}`} onClick={()=>{current(item[0].subject)}}>{item[0].subject}</span>
-                                                :<span className={`subject ${cur==item.subject?"current":""}`} onClick={()=>{current(item.subject)}}>{item.subject}</span>
+                                                <span className={`subject ${cur==item[0].subject?"current":""}`} onClick={()=>{item[0].commence==false?current(item[0].subject,item[0].commence):""}}>
+                                                    {item[0].subject}
+                                                    <span style={{borderBottom:"1px solid"}}>
+                                                    {item[0].commence==false?` Can't start yet`:` Start now`}
+                                                </span>
+                                                </span>
+                                                :<span className={`subject ${cur==item.subject?"current":""}`} onClick={()=>{current(i,item.subject, item.commence, item.grade)}}>
+                                                    <div className='mt-1'>
+                                                        <p >{item.grade}</p>
+                                                    </div>
+                                                    {item.subject}
+                                                    <span style={{borderBottom:"1px solid"}}>
+                                                    {item.commence==false?` Can't start yet`:` Start now`}
+                                                    </span>
+                                                </span>
                                             }
                                         </span>
                                     ))
