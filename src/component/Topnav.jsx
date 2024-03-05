@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Topnav = () => {
+const Topnav = ({studentname}) => {
   return (
     <div className='topnav d-flex'>
         <div className="d-flex justify-content-end w-75 p-3" >
@@ -13,7 +13,7 @@ const Topnav = () => {
         <div className="d-flex w-25 det">
             <div className="profile-img"></div>
             <div className="profile-det">
-                <p>Kingsley Abraham</p>
+                <p style={{textTransform:"capitalize"}}>{studentname}</p>
                 <p className='account-type'>Student account</p>
             </div>
         </div>

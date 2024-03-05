@@ -22,22 +22,22 @@ const Studentsignup = () => {
     const submit=()=>{
 
         if(grade=='JSS 1A' || grade=='JSS 1B' || grade=='JSS 1C'|| grade=='JSS 1D'){
-            setgrade2('J1')
+            setgrade2('JSS 1')
         }
         else if(grade=='JSS 2A' || grade=='JSS 2B' || grade=='JSS 2C'|| grade=='JSS 2D'){
-            setgrade2('J2')
+            setgrade2('JSS 2')
         }
         else if(grade=='JSS 3A' || grade=='JSS 3B' || grade=='JSS 3C'|| grade=='JSS 3D'){
-            setgrade2('J3')
+            setgrade2('JSS 3')
         }
         else if(grade=='SSS 1A' || grade=='SSS 1B' || grade=='SSS 1C'|| grade=='SSS 1D'){
-            setgrade2('S1')
+            setgrade2('SSS 1')
         }
         else if(grade=='SSS 2A' || grade=='SSS 2B' || grade=='SSS 2C'|| grade=='SSS 2D'){
-            setgrade2('S2')
+            setgrade2('SSS 2')
         }
         else if(grade=='SSS 3A' || grade=='SSS 3B' || grade=='SSS 3C'|| grade=='SSS 3D'){
-            setgrade2('S3')
+            setgrade2('SSS 3')
         }
         if(fullname==""|| gender==""|| grade==""||grade2==""|| username==""|| password==""){
             alert("Fill evrything")
@@ -77,7 +77,7 @@ const Studentsignup = () => {
 
                     <option value="" selected disabled>Select Class </option>
                             <option value="" selected>Junior Secondary School</option>
-                            <option value="" disabled>JSS 2</option>
+                            <option value="" disabled>JSS 1</option>
                             <option value="JSS 1A">JSS 1A</option>
                             <option value="JSS 1B">JSS 1B</option>
                             <option value="JSS 1C">JSS 1C</option>

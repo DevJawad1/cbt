@@ -154,30 +154,38 @@ const Studentdsb = () => {
             result: result.length,
             correctAnswer: filteredSovleqst.filter(item => item.statue === "Correct"),
             questionNoOption: filteredArray,
-            subject:getsub.subject
+            subject:getsub.subject,
+            grade:onestudent.grade
         }
 
         if (localStorage.studentresult) {
             let getstudent = JSON.parse(localStorage.studentresult)
             resultarray = getstudent
             let setresult = false
-            for (let index = 0; index < getstudent.length; index++) {
-                if (getstudent[index].studentname == id && getstudent[index].subject==getsub.subject) {
-                    // console.log(getstudent[index].studentname);
-                    break
-                }
-                else {
-                    setresult = true
-                    break
-                }
-            }
-            if (setresult == true) {
-                resultarray.push(studentresult)
-                console.log(resultarray);
-                localStorage.setItem('studentresult', JSON.stringify(resultarray))
-            }
-            else {
+
+            getstudent.map((item, i)=>{
+                if(item.studentname==id && item.subject==getsub.subject){
                 alert("You have already done this exam")
+                console.log(id);
+                    console.log(getstudent[index].studentname);
+                    console.log(getsub.subject);
+                    console.log(getstudent[index].subject);
+                    setresult=false
+                }
+                else{
+                    setresult=true
+                    resultarray.push(studentresult)
+                    console.log(resultarray);
+                }
+            })
+
+            if(setresult==true){
+                Swal.fire({
+                    title: "Good job!",
+                    text: "Qusetion have been posted!",
+                    icon: "success"
+                  });
+                localStorage.setItem('studentresult', JSON.stringify(resultarray))
             }
         }
         else {
@@ -222,7 +230,7 @@ const Studentdsb = () => {
     return (
         <div className='dashb'>
             <div>
-                <Topnav />
+                <Topnav studentname={id}/>
                 <Sidenav show={handleCategoryChange} />
             </div>
 
@@ -301,9 +309,9 @@ const Studentdsb = () => {
                                 </div>
                             </div>
                         ))
-                        :<div className='container shadow p-5'>
+                        :<div className='container shadow p-5 '>
                             <p className='text-center text-white'>Click on the subject you are doing</p>
-                            <p className='text-center text-white' onClick={()=>{navi('/tutorlogin')}}>Upload qusetion</p>
+                            {/* <p className='text-center text-white' onClick={()=>{navi('/tutorlogin')}}>Upload qusetion</p> */}
                         </div>
                     }
                 </div>

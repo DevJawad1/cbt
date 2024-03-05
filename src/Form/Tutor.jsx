@@ -42,47 +42,48 @@ const Tutor = () => {
         if (localStorage.tutorquestion) {
             // console.log(JSON.parse(localStorage.tutorquestion));
             settutorqst(JSON.parse(localStorage.tutorquestion))
-            console.log(tutorqst[1]);
+            console.log(JSON.parse(localStorage.tutorquestion));
+            // console.log(tutorqst[1]);
             // tutorqst[0].map((item, i) => {
             //     console.log(item);
             // })
 
         }
-    },[ ])
+    }, [])
 
     const [eachsub, seteachsub] = useState(0)
     const [openqst, setopenqst] = useState(false)
     const [alertcm, setalertcm] = useState('')
-    const commence=(iq)=>{
+    const commence = (iq) => {
         console.log(iq);
-        tutorqst.map((item, i)=>{
-            item.map((qst, q)=>{
+        tutorqst.map((item, i) => {
+            item.map((qst, q) => {
                 // alert(qst.commence)
-                if(qst.subject==iq){
+                if (qst.subject == iq) {
                     console.log(qst);
-                    if(qst.commence==false){
-                        qst.commence=true
+                    if (qst.commence == false) {
+                        qst.commence = true
                         console.log(qst.commence);
                         localStorage.setItem('tutorquestion', JSON.stringify(tutorqst))
                         Swal.fire({
                             title: "Exam will now be commence!",
                             text: "You give permission to students",
                             icon: "success"
-                          });
+                        });
                     }
-                    else{
-                        qst.commence=false
+                    else {
+                        qst.commence = false
                         localStorage.setItem('tutorquestion', JSON.stringify(tutorqst))
                         Swal.fire({
                             title: "Exam will not be commence!",
                             text: "You withdrawl permission from students",
                             icon: "success"
-                          });
+                        });
                     }
                 }
             })
         })
-        
+
     }
     return (
         <div className='tutorpage'>
@@ -92,27 +93,28 @@ const Tutor = () => {
             <div className="mt-2 p-2">
                 <div className="d-flex gap-4">
                     <button className='btn btn-success' onClick={() => { navigate(`/uploadquestion/${id}`) }}>Upload question</button>
-                    <button className='btn btn-success' onClick={() => { setopenqst(true) }}>See your question</button>
+                    <button className='btn btn-success' onClick={() => { setopenqst(true) }}>Give access to Exam</button>
                 </div>
                 <div>
                     <p>Your student result</p>
                     <div>
                         {
                             result.length > 0 ?
-                                <table className='table'>
+                                <table className='table tutor'>
                                     <tr >
                                         <td >Student Name</td>
+                                        <td >Student Class</td>  
                                         <td >Student Result</td>
                                     </tr>
                                     <tbody>
                                         {
-                                            result.length > 1 ?
+                                            result.length > 0 ?
                                                 result.map((item, i) => (
                                                     <tr className='table-success'>
-                                                        <td className='w-25 table-succss' style={{ borderLeft: "1px solid" }}>{item.studentname}
-
+                                                        <td className='w-25 table-succss' style={{ borderLeft: "1px solid" }}>{item.studentname}</td>
+                                                        <td style={{ borderLeft: "1px solid" }}>
+                                                            {item.grade}
                                                         </td>
-
                                                         <td className='w-25 table-waring' style={{ borderLeft: "1px solid" }}>{
                                                             item.result == 0 ? "This student din't got anything, " +
                                                                 qstid == item.studentname ?
@@ -123,37 +125,42 @@ const Tutor = () => {
                                                                     Number(item.result + sum) :
                                                                     Number(item.result)
                                                         }</td>
-                                                        <td className='w-25 table-waring' style={{ borderLeft: "1px solid" }}>{
-                                                            item.questionNoOption.map((item, i) => (
-                                                                <div className='border border-1 border-success mt-2'>
-                                                                    <p>Qusetion number: {item.questionNo}</p>
-                                                                    <p>All qusetion number {item.questionNo} Answer</p>
-                                                                    {
-                                                                        item.answer.length == item.space ?
-                                                                            <div>{
-                                                                                item.answer.map((ans, id) => (
-                                                                                    <div className='d-flex mt-3 w-100 justify-content-enter gap-2'>
-                                                                                        <p style={{ borderBottom: "1px solid" }} className='w-100'>{ans.value}</p>
-                                                                                        <div className="border w-100">
-                                                                                            <button className='btn btn-success' onClick={() => { correct(1, item.studentname) }}>Correct</button>
-                                                                                            {/* <p>{item.studentname}</p> */}
-                                                                                            <button className='btn btn-danger mx-2' onClick={() => { wrong(0) }}>Wrong</button>
-
+                                                        {
+                                                            item.questionNoOption.length>0?
+                                                            <td className='w-25 table-waring' style={{ borderLeft: "1px solid" }}>{
+                                                                item.questionNoOption.map((item, i) => (
+                                                                    <div className='border border-1 border-success mt-2'>
+                                                                        <p>Qusetion number: {item.questionNo}</p>
+                                                                        <p>All qusetion number {item.questionNo} Answer</p>
+                                                                        {
+                                                                            item.answer.length == item.space ?
+                                                                                <div>{
+                                                                                    item.answer.map((ans, id) => (
+                                                                                        <div className='d-flex mt-3 w-100 justify-content-enter gap-2'>
+                                                                                            <p style={{ borderBottom: "1px solid" }} className='w-100'>{ans.value}</p>
+                                                                                            <div className="border w-100">
+                                                                                                <button className='btn btn-success' onClick={() => { correct(1, item.studentname) }}>Correct</button>
+                                                                                                {/* <p>{item.studentname}</p> */}
+                                                                                                <button className='btn btn-danger mx-2' onClick={() => { wrong(0) }}>Wrong</button>
+    
+                                                                                            </div>
                                                                                         </div>
-                                                                                    </div>
-                                                                                ))
-                                                                            }</div>
-                                                                            : <div>
-                                                                                {
-                                                                                    // console.log(item.answer)
-                                                                                    // <div></div>
-                                                                                }
-                                                                            </div>
-                                                                    }
-                                                                </div>
-                                                            ))
-
-                                                        }</td>
+                                                                                    ))
+                                                                                }</div>
+                                                                                : <div>
+                                                                                    {
+                                                                                        // console.log(item.answer)
+                                                                                        // <div></div>
+                                                                                    }
+                                                                                </div>
+                                                                        }
+                                                                    </div>
+                                                                ))
+    
+                                                            }</td>
+                                                            :null
+                                                        }
+                                                        
                                                     </tr>
                                                 ))
                                                 : <div>
@@ -191,7 +198,7 @@ const Tutor = () => {
                                 </div> */}
                                         <div>
                                             {
-                                                tutorqst.length > 1 ?
+                                                tutorqst.length > 0 ?
                                                     tutorqst.map((item, i) => (
                                                         <div>
                                                             {
@@ -200,35 +207,35 @@ const Tutor = () => {
                                                                         <div id="carouselExample" class="carousel slide">
                                                                             <div class="carousel-inner">
                                                                                 <div class="carousel-item active">
-                                                                                {
-                                                                            qsts.tutor == id ?
-                                                                                <div className='border mt-2 p-2'>
+                                                                                    {
+                                                                                        qsts.tutor == id ?
+                                                                                            <div className='border mt-2 p-2'>
 
-                                                                                    {/* <button>{nestedArray[eachsub].subject}</button> */}
-                                                                                    <div className="d-flex justify-content-between">
-                                                                                    <p>Subject: {qsts.subject}</p>
-                                                                                    <button className='btn btn-success' onClick={()=>{commence(qsts.subject,iq)}}>{qsts.commence==false?"Give permission to student":"Withdral permission from student"}</button>
-                                                                                    </div>
-                                                                                    <p>Qustion: {
-                                                                                        qsts.question.map((qst, i) => (
-                                                                                            <div className='border p-2 mt-2'>
-                                                                                                <p>{qst.question}</p>
-                                                                                                <p>{qst.Ao}</p>
-                                                                                                <p>{qst.Bo}</p>
-                                                                                                <p>{qst.Co}</p>
-                                                                                                <p>{qst.Do}</p>
+                                                                                                {/* <button>{nestedArray[eachsub].subject}</button> */}
+                                                                                                <div className="d-flex justify-content-between">
+                                                                                                    <p>Subject: {qsts.subject}</p>
+                                                                                                    <button className='btn btn-success' onClick={() => { commence(qsts.subject, iq) }}>{qsts.commence == false ? "Give permission to student" : "Withdral permission from student"}</button>
+                                                                                                </div>
+                                                                                                <p>Qustion: {
+                                                                                                    qsts.question.map((qst, i) => (
+                                                                                                        <div className='border p-2 mt-2'>
+                                                                                                            <p>{qst.question}</p>
+                                                                                                            <p>{qst.Ao}</p>
+                                                                                                            <p>{qst.Bo}</p>
+                                                                                                            <p>{qst.Co}</p>
+                                                                                                            <p>{qst.Do}</p>
+                                                                                                        </div>
+                                                                                                    ))
+                                                                                                }</p>
                                                                                             </div>
-                                                                                        ))
-                                                                                    }</p>
-                                                                                </div>
-                                                                                : <div>You dont have quetion</div>
-                                                                        }
+                                                                                            : <div>You dont have quetion</div>
+                                                                                    }
                                                                                 </div>
                                                                                 <div class="carousel-item">
-                                                                                    
+
                                                                                 </div>
                                                                                 <div class="carousel-item">
-                                                                                    
+
                                                                                 </div>
                                                                             </div>
                                                                             <button class="carousel-control-prev car-btn" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
@@ -240,13 +247,15 @@ const Tutor = () => {
                                                                                 <span class="visually-hidden">Next</span>
                                                                             </button>
                                                                         </div>
-                                                                        
+
                                                                     </div>
                                                                 ))
                                                             }
                                                         </div>
                                                     ))
-                                                    : null
+                                                    : <div className='shadow p-5 text-center'>
+                                                        <p>You haven't set any question</p>
+                                                    </div>
                                             }
                                         </div>
 

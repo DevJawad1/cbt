@@ -23,7 +23,7 @@ const Uploadquestion = () => {
     const [alert, setalert] = useState(false)
     const submit = () => {
         if (noOption == false) {
-            if (question == "" || optiona == "" || optionb == "" || optionc == "" || optiond == '' || subject == "") {
+            if (question == "" || optiona == "" || optionb == "" || optionc == "" || optiond == '' || subject == "" ) {
                 Swal.fire({
                     title: "Error!",
                     text: "Fill everything",
@@ -44,7 +44,7 @@ const Uploadquestion = () => {
                         Ao: optiona,
                         Bo: optionb,
                         Co: optionc,
-                        Do: optiona, // Should this be optiond instead of optiona?
+                        Do: optiond, 
                         answer: anser,
                         styling: "",
                         spaces: 0,
@@ -160,6 +160,7 @@ const Uploadquestion = () => {
             text: "Qusetion have been posted!",
             icon: "success"
         });
+        console.log(myquestion);
         localStorage.setItem(`tutorquestion`, JSON.stringify(myquestion))
         setshowqst(false)
     }
@@ -179,21 +180,21 @@ const Uploadquestion = () => {
                             <option value="JSS 1B">JSS 1B</option>
                             <option value="JSS 1C">JSS 1C</option>
                             <option value="JSS 1D">JSS 1D</option>
-                            <option value="J1">All JSS 1D</option>
+                            <option value="JSS 1">All JSS 1</option>
 
                             <option value="" disabled>JSS 2</option>
                             <option value="JSS 2A">JSS 2A</option>
                             <option value="JSS 2B">JSS 2B</option>
                             <option value="JSS 2C">JSS 2C</option>
                             <option value="JSS 2D">JSS 2D</option>
-                            <option value="J2">All JSS 2</option>
+                            <option value="JSS 2">All JSS 2</option>
 
                             <option value="" disabled>JSS 3</option>
                             <option value="JSS 3A">JSS 3A</option>
                             <option value="JSS 3B">JSS 3B</option>
                             <option value="JSS 3C">JSS 3C</option>
                             <option value="JSS 3D">JSS 3D</option>
-                            <option value="J3">All JSS 3</option>
+                            <option value="JSS 3">All JSS 3</option>
 
                             <option value="" disabled>Senior Secondary School</option>
                             <option value="" disabled>SSS 1</option>
@@ -201,21 +202,21 @@ const Uploadquestion = () => {
                             <option value="SSS 1B">SSS 1B</option>
                             <option value="SSS 1C">SSS 1C</option>
                             <option value="SSS 1D">SSS 1D</option>
-                            <option value="Sl">All SSS 1</option>
+                            <option value="SSS l">All SSS 1</option>
 
                             <option value="" disabled>SSS 2</option>
                             <option value="SSS 2A">SSS 2A</option>
                             <option value="SSS 2B">SSS 2B</option>
                             <option value="SSS 2C">SSS 2C</option>
                             <option value="SSS 2D">SSS 2D</option>
-                            <option value="S2">All SSS 2</option>
+                            <option value="SSS 2">All SSS 2</option>
 
                             <option value="" disabled>SSS 3</option>
                             <option value="SSS 3A">SSS 3A</option>
                             <option value="SSS 3B">SSS 3B</option>
                             <option value="SSS 3C">SSS 3C</option>
                             <option value="SSS 3D">SSS 3D</option>
-                            <option value="S3">All SSS 3</option>
+                            <option value="SSS 3">All SSS 3</option>
                         </select>
                     </div>
                     <button className='btn border border-success' onClick={postExam} style={{height:"40px"}}>See your question </button>

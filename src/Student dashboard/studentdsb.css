@@ -133,7 +133,7 @@
     padding-top: 4px;
     /* border-radius: 50%; */
     font-size: 13px;
-    transition: all 0.1s ease;
+    /* transition: all 0.05s ease; */
     cursor: pointer;
 }
 .choosed{
@@ -233,4 +233,8 @@
     position: absolute;
     margin-top: 35vh;
     z-index: 5;
+}
+
+.tutor td{
+    width: 200px !important;
 }

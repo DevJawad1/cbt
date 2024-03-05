@@ -22,26 +22,28 @@ const Sidenav = ({show}) => {
     const [cur, setcur] = useState('')
     const current=(i, subject, commece, grade)=>{
         console.log(grade);
-        if(commece==false){
-            Swal.fire({
-                title: "Cannot start exam!",
-                text: "Your teacher have not give the permission to start exam",
-                icon: "error"
-              });
-        }
-        else{
-            if(grade==onestudent.grade || grade==onestudent.grade2){
-                setcur(subject)
-                subid(i)
-            }
-            else{
+        if(grade==onestudent.grade || grade==onestudent.grade2){
+            
+            if(commece==false){
                 Swal.fire({
-                    title: "Permission Denied!",
-                    text: "Available for "+grade,
+                    title: "Cannot start exam!",
+                    text: "Your teacher have not give the permission to start exam",
                     icon: "error"
                   });
             }
+            else{
+                setcur(subject)
+            subid(i)
+            }
         }
+        else{
+            Swal.fire({
+                title: "Permission Denied!",
+                text: "Available for "+grade,
+                icon: "error"
+              });
+        }
+        
         // console.log(onestudent.grade);
     }
     return (
@@ -97,11 +99,14 @@ const Sidenav = ({show}) => {
                                         <span>
                                             {
                                                 item.length?
-                                                <span className={`subject ${cur==item[0].subject?"current":""}`} onClick={()=>{item[0].commence==false?current(item[0].subject,item[0].commence):""}}>
+                                                <span className={`subject ${cur==item.subject?"current":""}`} onClick={()=>{current(i,item[0].subject, item[0].commence, item[0].grade)}}>
+                                                    <div className='mt-1'>
+                                                        <p >{item[0].grade}</p>
+                                                    </div>
                                                     {item[0].subject}
                                                     <span style={{borderBottom:"1px solid"}}>
-                                                    {item[0].commence==false?` Can't start yet`:` Start now`}
-                                                </span>
+                                                    {item[0].commence==false?` Can't start yet `: cur==item[0].subject?": Started":": Start now"}
+                                                    </span>
                                                 </span>
                                                 :<span className={`subject ${cur==item.subject?"current":""}`} onClick={()=>{current(i,item.subject, item.commence, item.grade)}}>
                                                     <div className='mt-1'>
@@ -109,7 +114,7 @@ const Sidenav = ({show}) => {
                                                     </div>
                                                     {item.subject}
                                                     <span style={{borderBottom:"1px solid"}}>
-                                                    {item.commence==false?` Can't start yet`:` Start now`}
+                                                    {item.commence==false?` Can't start yet `: cur==item.subject?": Started":": Start now"}
                                                     </span>
                                                 </span>
                                             }
