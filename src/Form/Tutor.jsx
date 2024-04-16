@@ -81,9 +81,9 @@ const Tutor = () => {
     
     const [openqst, setopenqst] = useState(false)
     const [alertcm, setalertcm] = useState('')
-    const commence = (id) => {
+    const commence = (id, grade, mail) => {
         let url = "http://localhost:3000/user/updateqst"
-        axios.post(url, {id:id}).then((res)=>{
+        axios.post(url, {id:id, grade1:grade,tutor:mail }).then((res)=>{
             console.log(res);
             if(res.data.status){
                 Swal.fire({
@@ -117,7 +117,7 @@ const Tutor = () => {
                     <button className='btn btn-success' onClick={access}>Give access to Exam</button>
                 </div>
                 <div>
-                    <p>Your student result</p>
+                    
                     <div>
                         {
                             result.length > 0 ?
@@ -130,7 +130,8 @@ const Tutor = () => {
                                     <tbody>
                                         {
                                             result.length > 0 ?
-                                                result.map((item, i) => (
+                                                result.map(
+                                                (item, i) => (
                                                     <tr className='table-success'>
                                                         <td className='w-25 table-succss' style={{ borderLeft: "1px solid" }}>{item.studentname}</td>
                                                         <td style={{ borderLeft: "1px solid" }}>
@@ -192,15 +193,15 @@ const Tutor = () => {
                             openqst == true ?
                                 <div className="tutorcov border">
                                     <div className="board tutorbod">
-                                        <button onClick={() => { setopenqst(false) }} className='btn '>Close</button>
+                                        <button onClick={() => { setopenqst(false) }} className={`btn `}>Close</button>
                                     <div>
                                         {
                                             tutorqst.length >0?
-                                                    <div className='d-flex'>
+                                                    <div className='d-flex gap-5 justify-content-between border-bottom p-2'>
                                                         {
                                                             tutorqst.map((qsts, iq) => (
-                                                                <div key={iq}>
-                                                                    <button className='btn' onClick={()=>{seteachsub(Number(iq))}}>{qsts.subject} ({qsts.grade})</button>
+                                                                <div key={iq} >
+                                                                    <button className={`btn ${tutorqst[eachsub].subject==qsts.subject && tutorqst[eachsub].grade==qsts.grade?"btn-success":""}`} onClick={()=>{seteachsub(Number(iq))}} style={{textTransform:"capitalize"}}>{qsts.subject} ({qsts.grade})</button>
                                                                 </div>
                                                             ))
                                                         }
@@ -211,18 +212,18 @@ const Tutor = () => {
                                                 </div>
                                         }
 
-                                        <div className="carousel-item active">
+                                        <div className="carousel-item active mt-2">
                                         {
                                            eachsub &&  tutorqst[eachsub].tutor == id ?
-                                                <div className='border mt-2 p-2'>
+                                                <div className=' mt-2 p-2'>
                                                     <div className="d-flex justify-content-between">
                                                         <p>Subject: {tutorqst[eachsub].subject}</p>
-                                                        <button className='btn btn-success' onClick={() => { commence(tutorqst[eachsub]._id) }}>{tutorqst[eachsub].commence == false ? "Give permission to student" : "Withdral permission from student"}</button>
+                                                        <button className='btn btn-success' onClick={() => { commence(tutorqst[eachsub]._id, tutorqst[eachsub].grade, tutorqst[eachsub].tutoremail) }}>{tutorqst[eachsub].commence == false ? "Give permission to student" : "Withdral permission from student"}</button>
                                                     </div>
                                                     <div>Qustion: {
                                                         tutorqst[eachsub].question.map((qst, i) => (
                                                             <div className='border border-black p-2 mt-2' key={i}>
-                                                                <p className='border-bottom border-black mt-2 bg-light p-2' style={{textTransform:"capitalize"}}>Question:  {qst.question}</p>
+                                                                <p className='border-bottom border-black mt-2 bg-light p-2' style={{textTransform:"capitalize"}}>{i+1}) Question:  {qst.question}</p>
                                                                 <p>Options</p>
                                                                 <p>(A) {qst.Ao}</p>
                                                                 <p>[B] {qst.Bo}</p>
@@ -232,7 +233,7 @@ const Tutor = () => {
                                                         ))
                                                     }</div>
                                                 </div>
-                                                : <div>You dont have quetion</div>
+                                                : <div>You dont have quetion under this subject</div>
                                         }
                                         </div> 
                                     </div>

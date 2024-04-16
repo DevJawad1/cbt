@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import logo from '../assets/gomal logo.png'
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
-const Sidenav = ({show, name}) => {
+import axios, { all } from 'axios'
+const Sidenav = ({show, name, qstcontent, grade1, grade2}) => {
     const navi = useNavigate()
     const [getsubject, setgetsubject] = useState('')
     const [subname, setsubname] = useState()
-    const [allqusetion, setallqusetion] = useState([])
+    const [allqusetion, setallqusetion]
+     = useState([])
     let  receivedQuestions
     const [noexam, setnoexam] = useState('')
     useEffect(()=>{
         let url = "http://localhost:3000/user/sendquestion"
+        
         const getuser = JSON.parse(localStorage.student)
         axios.post(url, {gradeOne:getuser.grade,gradeTwo:getuser.grade2, studentname:name}).then((res)=>{
             // console.log(res);
@@ -25,40 +27,49 @@ const Sidenav = ({show, name}) => {
             allqusetion.map((item, i)=>{
                 setsubname(item.grade)
             })
-            // console.log(allqusetion);
         }).catch((err)=>{
             console.log(err);
         })
-    },[])
+    },[]) // note going to remove box //
     const subid=(i)=>{
         show(i)
+        qstcontent(allqusetion[i])
     }
     const [cur, setcur] = useState('')
     
     const current=(i, subject, commece, grade)=>{
-        if(allqusetion[i].commence==false){
-            Swal.fire({
-                title: "Cannot start exam!",
-                text: "Your teacher have not give the permission to start exam",
-                icon: "error"
-            });
-        }else{
-            console.log(name, subject);
-            let url = "http://localhost:3000/user/existedresult"
-            axios.post(url, {name, subject}).then((res)=>{
-            if(res.data.status){
-                subid(i)
-            }else{
-                Swal.fire({
-                    title: "Denied!",
-                    text: res.data.message,
-                    icon: "error"
-                });
-            }
+        subid(i)
+        
+        let url = "http://localhost:3000/user/ongoingexam"
+        axios.post(url, {student:name, tutor:allqusetion[i].tutoremail, subject:allqusetion[i].subject, grade1:grade1, grade2:grade2}).then((Result)=>{
+            console.log(Result);
         }).catch((err)=>{
             console.log(err);
         })
-        }
+        
+        // if(allqusetion[i].commence==false){
+        //     Swal.fire({
+        //         title: "Cannot start exam!",
+        //         text: "Your teacher have not give the permission to start exam",
+        //         icon: "error"
+        //     });
+        // }else{
+        //     console.log(name, subject);
+        //     let url = "http://localhost:3000/user/existedresult"
+        //     axios.post(url, {name, subject}).then((res)=>{
+        //     if(res.data.status){
+        //         subid(i)
+        //     }else{
+        //         Swal.fire({
+        //             title: "Denied!",
+        //             text: res.data.message,
+        //             icon: "error"
+        //         });
+        //     }
+        // }).catch((err)=>{
+        //     console.log(err);
+        // })
+        // }
     }
     
     const [commenced, setcommenced] = useState(null)

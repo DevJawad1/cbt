@@ -11,26 +11,21 @@ const Studentdsb = () => {
     const [allsubject, setallsubject] = useState([])
     const [questionNo, setquestionNo] = useState(0)
     const getuser = JSON.parse(localStorage.student)
+    const [currectsubject, setcurrectsubject] = useState('')
     const { id } = useParams()
     const [subject, setsubject] = useState('')
     const handleCategoryChange = (category) => {
         setsubject(category)
     };
-    useEffect(() => {
-        let url = "http://localhost:3000/user/sendquestion"
-        axios.post(url, { gradeOne: getuser.grade, gradeTwo: getuser.grade2 }).then((res) => {
-            const receivedQuestions = res.data.question;
-            setallsubject(receivedQuestions)
-            const allQuestions = receivedQuestions[Number(subject)];
-            const shuffledQuestions = shufflearray(allQuestions.question);
-            const updatedQuestions = { ...allQuestions, question: shuffledQuestions };
-            setallqusetion(updatedQuestions)
-            // console.log(allqusetion);
-        }).catch((err) => {
-            console.log(err);
-        })
-
-    }, [subject]);
+    const handleqst = (qstcont)=>{
+        setcurrectsubject(qstcont)
+        const receivedQuestions = qstcont;
+        console.log(receivedQuestions);
+        const allQuestions = receivedQuestions;
+        const shuffledQuestions = shufflearray(receivedQuestions.question);
+        const updatedQuestions = { ...allQuestions, question: shuffledQuestions };
+        setallqusetion(updatedQuestions)
+    }
     useEffect(()=>{
         if(allqusetion){
             if(allqusetion.commence==false){
@@ -39,6 +34,7 @@ const Studentdsb = () => {
         }
     })
     const shufflearray = (array) => {
+        console.log(array);
         for (let i = array.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [array[i], array[j]] = [array[j], array[i]];
@@ -164,10 +160,10 @@ const Studentdsb = () => {
         <div className='dashb'>
             <div>
                 <Topnav studentname={id} />
-                <Sidenav show={handleCategoryChange} name={id}/>
+                <Sidenav show={handleCategoryChange} name={id} qstcontent={handleqst} grade1={getuser.grade} grade2={getuser.grade2}/>
             </div>
             {
-                allsubject.length>0?
+                subject!==""?
                 <div className="content p-4 d-flex gap-5">
                 <div className="wit1">
                     {
