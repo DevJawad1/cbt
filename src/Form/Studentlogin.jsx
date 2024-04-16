@@ -38,7 +38,7 @@ const Studentlogin = () => {
         //           });
         //     }
         // })
-        let url = "http://localhost:3000/user/studentlogin"
+        let url = "https://cbt-backend-3zzv.onrender.com/user/studentlogin"
         axios.post(url, {username:username, password:password}).then((res)=>{
             // console.log(res)
             if(res.data.status){

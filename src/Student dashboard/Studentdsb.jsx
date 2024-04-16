@@ -111,7 +111,7 @@ const Studentdsb = () => {
             tutor:allqusetion.tutoremail
         }
         // console.log(studentresult);
-        let url = "http://localhost:3000/user/sendresult"
+        let url = "https://cbt-backend-3zzv.onrender.com/user/sendresult"
         axios.post(url, studentresult).then((res)=>{
             console.log(res);
             if(res.data.status){

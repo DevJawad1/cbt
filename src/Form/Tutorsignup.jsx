@@ -25,7 +25,7 @@ const Tutorsignup = () => {
                 // setTutorData(updatedData);
                 // localStorage.setItem('tutorData', JSON.stringify(updatedData));
                 // navigate('/tutorlogin')
-        let url = "http://localhost:3000/user/tutorsignup"
+        let url = "https://cbt-backend-3zzv.onrender.com/user/tutorsignup"
         axios.post(url, newUser).then((res)=>{
             console.log(res.data);
             if(res.data.status){

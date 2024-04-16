@@ -160,7 +160,7 @@ const Uploadquestion = () => {
         
         console.log(grade);
         // localStorage.setItem(`tutorquestion`, JSON.stringify(myquestion))
-        let url = "http://localhost:3000/user/uploadqst"
+        let url = "https://cbt-backend-3zzv.onrender.com/user/uploadqst"
         console.log(allquestion);
         axios.post(url, allquestion[0]).then((res)=>{
             console.log(res);

@@ -21,7 +21,7 @@ const Tutor = () => {
     
     
     useEffect(() => {
-        let urlresult = "http://localhost:3000/user/sendtutorresults"
+        let urlresult = "https://cbt-backend-3zzv.onrender.com/user/sendtutorresults"
         axios.post(urlresult, {tutor:tutor.email}).then((res)=>{
             console.log(res.data.allresult);
             let combinedByClass = combineByClass(res.data.allresult);
@@ -53,7 +53,7 @@ const Tutor = () => {
     const access=()=>{
         setopenqst(true) 
         // console.log(openqst);
-        let url = "http://localhost:3000/user/sendtutorqst"
+        let url = "https://cbt-backend-3zzv.onrender.com/user/sendtutorqst"
         axios.post(url, {email:tutor.email}).then((res)=>{
 
             settutorqst(res.data.question)
@@ -65,7 +65,7 @@ const Tutor = () => {
         })
     }
     // useEffect(()=>{
-    //     let url = "http://localhost:3000/user/sendtutorqst"
+    //     let url = "https://cbt-backend-3zzv.onrender.com/user/sendtutorqst"
     //     axios.post(url, {email:tutor.email}).then((res)=>{
 
     //         settutorqst(res.data.question)
@@ -82,7 +82,7 @@ const Tutor = () => {
     const [openqst, setopenqst] = useState(false)
     const [alertcm, setalertcm] = useState('')
     const commence = (id, grade, mail) => {
-        let url = "http://localhost:3000/user/updateqst"
+        let url = "https://cbt-backend-3zzv.onrender.com/user/updateqst"
         axios.post(url, {id:id, grade1:grade,tutor:mail }).then((res)=>{
             console.log(res);
             if(res.data.status){

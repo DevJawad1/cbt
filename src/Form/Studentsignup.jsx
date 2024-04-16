@@ -50,7 +50,7 @@ const Studentsignup = () => {
             // console.log(grade2);
             // localStorage.setItem('studentData', JSON.stringify(updatedData));
             // navigate('/studentlogin')
-            let url = "http://localhost:3000/user/studentsignup"
+            let url = "https://cbt-backend-3zzv.onrender.com/user/studentsignup"
             axios.post(url, newUser).then((res)=>{
                 // console.log(res);
                 if(res.data.status){

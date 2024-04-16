@@ -11,7 +11,7 @@ const Sidenav = ({show, name, qstcontent, grade1, grade2}) => {
     let  receivedQuestions
     const [noexam, setnoexam] = useState('')
     useEffect(()=>{
-        let url = "http://localhost:3000/user/sendquestion"
+        let url = "https://cbt-backend-3zzv.onrender.com/user/sendquestion"
         
         const getuser = JSON.parse(localStorage.student)
         axios.post(url, {gradeOne:getuser.grade,gradeTwo:getuser.grade2, studentname:name}).then((res)=>{
@@ -40,7 +40,7 @@ const Sidenav = ({show, name, qstcontent, grade1, grade2}) => {
     const current=(i, subject, commece, grade)=>{
         subid(i)
         
-        let url = "http://localhost:3000/user/ongoingexam"
+        let url ="https://cbt-backend-3zzv.onrender.com/user/ongoingexam"
         axios.post(url, {student:name, tutor:allqusetion[i].tutoremail, subject:allqusetion[i].subject, grade1:grade1, grade2:grade2}).then((Result)=>{
             console.log(Result);
         }).catch((err)=>{
@@ -55,7 +55,7 @@ const Sidenav = ({show, name, qstcontent, grade1, grade2}) => {
         //     });
         // }else{
         //     console.log(name, subject);
-        //     let url = "http://localhost:3000/user/existedresult"
+        //     let url = "https://cbt-backend-3zzv.onrender.com/user/existedresult"
         //     axios.post(url, {name, subject}).then((res)=>{
         //     if(res.data.status){
         //         subid(i)

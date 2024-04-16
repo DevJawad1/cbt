@@ -8,7 +8,7 @@ const Tutorlogin = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const submit=()=>{
-        let url = "http://localhost:3000/user/tutorlogin"
+        let url = "https://cbt-backend-3zzv.onrender.com/user/tutorlogin"
         axios.post(url, {email:email, password:password}).then((res)=>{
             // console.log(res)
             if(res.data.status){
