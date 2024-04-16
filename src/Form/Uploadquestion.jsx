@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import './upload.css'
 import { useParams } from 'react-router-dom'
-
+import axios from 'axios'
 const Uploadquestion = () => {
     const { id } = useParams()
 
@@ -18,12 +18,12 @@ const Uploadquestion = () => {
     const [space, setspace] = useState('')
     const [grade, setgrade] = useState('')
     const [questionno, setquestionno] = useState(1)
-
+    const tutor = JSON.parse(localStorage.tutor)
     const [noOption, setnoOption] = useState(false)
     const [alert, setalert] = useState(false)
     const submit = () => {
         if (noOption == false) {
-            if (question == "" || optiona == "" || optionb == "" || optionc == "" || optiond == '' || subject == "" ) {
+            if (question == "" || optiona == "" || optionb == "" || optionc == "" || optiond == '' || subject == "" || grade=="") {
                 Swal.fire({
                     title: "Error!",
                     text: "Fill everything",
@@ -39,6 +39,7 @@ const Uploadquestion = () => {
                     });
                 }
                 else {
+                    console.log(grade);
                     let qstobj = {
                         question: question,
                         Ao: optiona,
@@ -53,6 +54,7 @@ const Uploadquestion = () => {
                     let obj = {
                         subject: subject,
                         tutor: id,
+                        tutoremail:tutor.email,
                         type: "Option",
                         spaces: 0,
                         grade:grade,
@@ -96,12 +98,14 @@ const Uploadquestion = () => {
             let obj2 = {
                 subject: subject,
                 tutor: id,
+                tutoremail:tutor.email,
                 type: "noOption",
                 spaces: space,
                 grade:grade,
                 commence:false,
                 question: [qstobj2]
             };
+            // console.log(tutor.email);
             setquestionno(questionno + 1);
 
             if (allquestion.length === 0) {
@@ -141,28 +145,36 @@ const Uploadquestion = () => {
     const [showqst, setshowqst] = useState(false)
     const postExam = () => {
         setshowqst(true)
+        console.log(grade);
     }
 
     const saveExam = () => {
-        // let general=[allquestion]
-        // console.log(qqq);
         if (localStorage.tutorquestion) {
             let getback = JSON.parse(localStorage.tutorquestion)
-            // console.log(getback);
             myquestion = getback
             console.log(myquestion);
-            // allquestion.push(getback)
         }
         console.log(allquestion);
         myquestion.push(allquestion)
-        Swal.fire({
-            title: "Good job!",
-            text: "Qusetion have been posted!",
-            icon: "success"
-        });
-        console.log(myquestion);
-        localStorage.setItem(`tutorquestion`, JSON.stringify(myquestion))
-        setshowqst(false)
+        
+        
+        console.log(grade);
+        // localStorage.setItem(`tutorquestion`, JSON.stringify(myquestion))
+        let url = "http://localhost:3000/user/uploadqst"
+        console.log(allquestion);
+        axios.post(url, allquestion[0]).then((res)=>{
+            console.log(res);
+            Swal.fire({
+                title: "Good job!",
+                text: "Qusetion have been posted!",
+                icon: "success"
+            });
+            setshowqst(false)
+
+        }).catch((err)=>{
+            console.log(err);
+        })
+
     }
     return (
         <div className='all-question '>
@@ -171,7 +183,7 @@ const Uploadquestion = () => {
                 <div className="d-flex justify-content-between">
                     <p>Question {questionno}</p>
                     <div>
-                        <select name="" id="" className='inp-holder w-100' style={{ height: "48px", outline: "none" }} onChange={(e) => setgrade(e.target.value)} value={grade}>
+                        <select name="" id="" className='inp-holder w-100' style={{ height: "48px", outline: "none" }} onChange={(e) => setgrade(e.target.value)} >
 
                             <option value="" selected disabled>Select Class </option>
                             <option value="" selected>Junior Secondary School</option>

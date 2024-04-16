@@ -11,6 +11,8 @@ import Studentsignup from './Form/Studentsignup'
 import Studentlogin from './Form/Studentlogin'
 import Uploadquestion from './Form/Uploadquestion'
 import Routepage from './Routepage'
+import Examboard from './Student dashboard/Examboard'
+import Landingpage from './landing/Landingpage'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -19,13 +21,15 @@ function App() {
     <>
     <Routes>
       <Route path='/' element={<Routepage/>}/>
+      <Route path='/home' element={<Landingpage/>}/>
       <Route path='/student/:id' element={<Studentdsb/>}/>
       <Route path='/studentsignup' element={<Studentsignup/>}/>
       <Route path='/studentlogin' element={<Studentlogin/>}/>
       <Route path='/tutor/:id' element={<Tutor/>}/>
       <Route path='/tutorsignup' element={<Tutorsignup/>}/>
       <Route path='/tutorlogin' element={<Tutorlogin/>}/>
-      <Route path='/uploadquestion/:id' element={<Uploadquestion/>}/>
+      <Route path='/uploadquestion/:id' element={<Uploadquestion/>}/> 
+      <Route path='/student/exam/:id' element={<Examboard/>}/> 
     </Routes>
     </>
   )

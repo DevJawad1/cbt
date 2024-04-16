@@ -133,14 +133,20 @@
     padding-top: 4px;
     /* border-radius: 50%; */
     font-size: 13px;
-    /* transition: all 0.05s ease; */
     cursor: pointer;
+    /* transition: all 0.05s ease; */
 }
 .choosed{
+    width: 30px;
+    height: 30px;
     background-color: rgb(0,70,128) !important;
     color: white;
     border: 1px solid white;
+    text-align: center;
+    padding-top: 4px;
     border-radius: 50%;
+    font-size: 13px;
+    cursor: pointer;
     /* transition: all 0.3s ease; */
 }
 .content .slide-btn button{
@@ -211,10 +217,11 @@
 }
 .tutorcov{
     background-color: rgba(0, 0, 0, 0.315);
-    position: absolute;
+    position: fixed !important;
     top: 0px;
     width: 100%;
     height: 100%;
+    /* z-index: 5; */
 }
 .tutorbod{
     background-color: white;

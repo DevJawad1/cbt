@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react'
 import {useNavigate} from 'react-router-dom'
 import './tutorform.css'
 import logo from '../assets/gomal logo.png'
+import axios from 'axios'
 
 const Tutorsignup = () => {
     const [fullname, setFullname] = useState('');
@@ -20,10 +21,33 @@ const Tutorsignup = () => {
 
     const submit=()=>{
         const newUser = { fullname, gender, email, password };
-                const updatedData = [...TutorData, newUser];
-                setTutorData(updatedData);
-                localStorage.setItem('tutorData', JSON.stringify(updatedData));
-                navigate('/tutorlogin')
+                // const updatedData = [...TutorData, newUser];
+                // setTutorData(updatedData);
+                // localStorage.setItem('tutorData', JSON.stringify(updatedData));
+                // navigate('/tutorlogin')
+        let url = "http://localhost:3000/user/tutorsignup"
+        axios.post(url, newUser).then((res)=>{
+            console.log(res.data);
+            if(res.data.status){
+                Swal.fire({
+                    title: "Good job!",
+                    text: "Signup successful!",
+                    icon: "success"
+                });
+                setTimeout(() => {
+                    navigate('/tutorlogin')
+                }, 1500);
+            }
+            else{
+                Swal.fire({
+                    title: "Invalid!",
+                    text: res.data.message,
+                    icon: "error"
+                });
+            }
+        }).catch(err=>{
+            console.log(err);
+        })
     }
   return (
     <div>

@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react'
 import './studentcss.css'
 import logo from '../assets/gomal logo.png'
 import {useNavigate} from 'react-router-dom'
+import axios from 'axios'
 const Studentsignup = () => {
     const navigate= useNavigate()
     const [fullname, setfullname] = useState('')
@@ -44,11 +45,34 @@ const Studentsignup = () => {
         }
         else{
             const newUser = { fullname, gender, grade,grade2, username, password };
-            const updatedData = [...data, newUser];
-            setdata(updatedData);
-            console.log(grade2);
-            localStorage.setItem('studentData', JSON.stringify(updatedData));
-            navigate('/studentlogin')
+            // const updatedData = [...data, newUser];
+            // setdata(updatedData);
+            // console.log(grade2);
+            // localStorage.setItem('studentData', JSON.stringify(updatedData));
+            // navigate('/studentlogin')
+            let url = "http://localhost:3000/user/studentsignup"
+            axios.post(url, newUser).then((res)=>{
+                // console.log(res);
+                if(res.data.status){
+                    Swal.fire({
+                        title: "Good job!",
+                        text: "Signup successful!",
+                        icon: "success"
+                    });
+                    setTimeout(() => {
+                        navigate('/studentlogin')
+                    }, 1500);
+                }
+                else{
+                    Swal.fire({
+                        title: "Invalid!",
+                        text: res.data.message,
+                        icon: "error"
+                    });
+                }
+            }).catch((err)=>{
+                // console.log(err);
+            })
         }
 
     }

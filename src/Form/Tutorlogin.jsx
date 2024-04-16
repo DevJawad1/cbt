@@ -1,33 +1,36 @@
 import React, {useState} from 'react'
-import {useNavigate} from "react-router-dom"
+import {json, useNavigate} from "react-router-dom"
 import './tutorform.css'
 import logo from '../assets/gomal logo.png'
+import axios from 'axios'
 const Tutorlogin = () => {
     const navigate=useNavigate()
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const submit=()=>{
-        let getuser=JSON.parse(localStorage.tutorData)
-
-        getuser.map((item, i)=>{
-            if(item.email.toLowerCase()==email.toLowerCase() && item.password.toLowerCase()==password.toLowerCase()){
-                localStorage.setItem('currentTutor', i)
+        let url = "http://localhost:3000/user/tutorlogin"
+        axios.post(url, {email:email, password:password}).then((res)=>{
+            // console.log(res)
+            if(res.data.status){
                 Swal.fire({
                     title: "Good job!",
-                    text: "Login successful!",
+                    text: "User Found!",
                     icon: "success"
-                  });
-                  setTimeout(() => {
-                      navigate(`/tutor/${item.fullname}`)
-                  }, 1000);
+                });
+                localStorage.setItem('tutor', JSON.stringify(res.data.tutor))
+                setTimeout(() => {
+                    navigate(`/tutor/${res.data.tutor.fullname}`)
+                }, 1500);
             }
             else{
                 Swal.fire({
-                    title: "Good job!",
-                    text: "Tutor not found!",
+                    title: "Wrong datails",
+                    text: res.data.message,
                     icon: "error"
-                  });
+                });
             }
+        }).catch((err)=>{
+            // console.log(err);
         })
     }
   return (

@@ -1,51 +1,73 @@
 import React, { useEffect, useState } from 'react'
 import logo from '../assets/gomal logo.png'
 import { useNavigate } from 'react-router-dom'
-const Sidenav = ({show}) => {
+import axios from 'axios'
+const Sidenav = ({show, name}) => {
     const navi = useNavigate()
     const [getsubject, setgetsubject] = useState('')
-    const [subname, setsubname] = useState(localStorage.tutorquestion?JSON.parse(localStorage.tutorquestion):"")
+    const [subname, setsubname] = useState()
+    const [allqusetion, setallqusetion] = useState([])
+    let  receivedQuestions
+    const [noexam, setnoexam] = useState('')
     useEffect(()=>{
-        if(localStorage.tutorquestion){
-            let getqusetion=JSON.parse(localStorage.tutorquestion)
-            setsubname(JSON.parse(localStorage.tutorquestion))
-            // console.log(subname);
-            setgetsubject(getqusetion.length)
-        }
+        let url = "http://localhost:3000/user/sendquestion"
+        const getuser = JSON.parse(localStorage.student)
+        axios.post(url, {gradeOne:getuser.grade,gradeTwo:getuser.grade2, studentname:name}).then((res)=>{
+            // console.log(res);
+            receivedQuestions = res.data.question;
+            setgetsubject(receivedQuestions.length)
+            setallqusetion(receivedQuestions)
+            if(res.data.status==false){
+                setnoexam('No exam for now')
+            }else{
+                setnoexam('')
+            }
+            allqusetion.map((item, i)=>{
+                setsubname(item.grade)
+            })
+            // console.log(allqusetion);
+        }).catch((err)=>{
+            console.log(err);
+        })
     },[])
-    const [getstudent, setgetstudent] = useState(JSON.parse(localStorage.studentData))
-    const [curstudent, setcurstudent] = useState(localStorage.currentstudent)
-    const onestudent=getstudent[curstudent]
     const subid=(i)=>{
         show(i)
     }
     const [cur, setcur] = useState('')
+    
     const current=(i, subject, commece, grade)=>{
-        console.log(grade);
-        if(grade==onestudent.grade || grade==onestudent.grade2){
-            
-            if(commece==false){
-                Swal.fire({
-                    title: "Cannot start exam!",
-                    text: "Your teacher have not give the permission to start exam",
-                    icon: "error"
-                  });
-            }
-            else{
-                setcur(subject)
-            subid(i)
-            }
-        }
-        else{
+        if(allqusetion[i].commence==false){
             Swal.fire({
-                title: "Permission Denied!",
-                text: "Available for "+grade,
+                title: "Cannot start exam!",
+                text: "Your teacher have not give the permission to start exam",
                 icon: "error"
-              });
+            });
+        }else{
+            console.log(name, subject);
+            let url = "http://localhost:3000/user/existedresult"
+            axios.post(url, {name, subject}).then((res)=>{
+            if(res.data.status){
+                subid(i)
+            }else{
+                Swal.fire({
+                    title: "Denied!",
+                    text: res.data.message,
+                    icon: "error"
+                });
+            }
+        }).catch((err)=>{
+            console.log(err);
+        })
         }
-        
-        // console.log(onestudent.grade);
     }
+    
+    const [commenced, setcommenced] = useState(null)
+    useEffect(()=>{
+        allqusetion.map((item, i)=>{
+
+            current(i,item.subject, item.commence, item.grade)
+        })
+    },[])
     return (
         <div className='sidebar'>
             <div className="p-3">
@@ -76,53 +98,49 @@ const Sidenav = ({show}) => {
                 </div>
 
                 <div className="subject-div mt-3">
-                    <p className='subject'>Subject</p>
-                    <div>
-
-                        {/* {
-                            getsubject.map((item, i)=>(
-                                <div>
-                                    <p onClick={()=>{subid(index)}}>{
-                                        item.question.map((sub, i)=>{
-                                            <span></span>
-                                        })
-
-                                    }</p>
-                                </div>
-                            ))
-                        } */}
                     {
-                        Array.from({ length: Number(getsubject) }, (_, index) => (
-                            <div>
-                                <p>{
-                                    subname[index].map((item, i)=>(
-                                        <span>
-                                            {
-                                                item.length?
-                                                <span className={`subject ${cur==item.subject?"current":""}`} onClick={()=>{current(i,item[0].subject, item[0].commence, item[0].grade)}}>
-                                                    <div className='mt-1'>
-                                                        <p >{item[0].grade}</p>
-                                                    </div>
-                                                    {item[0].subject}
-                                                    <span style={{borderBottom:"1px solid"}}>
-                                                    {item[0].commence==false?` Can't start yet `: cur==item[0].subject?": Started":": Start now"}
-                                                    </span>
-                                                </span>
-                                                :<span className={`subject ${cur==item.subject?"current":""}`} onClick={()=>{current(i,item.subject, item.commence, item.grade)}}>
-                                                    <div className='mt-1'>
-                                                        <p >{item.grade}</p>
-                                                    </div>
-                                                    {item.subject}
-                                                    <span style={{borderBottom:"1px solid"}}>
-                                                    {item.commence==false?` Can't start yet `: cur==item.subject?": Started":": Start now"}
-                                                    </span>
-                                                </span>
-                                            }
-                                        </span>
-                                    ))
-                                }</p>
-                            </div>
-                        ))
+                     allqusetion.length>0?
+                     <div>
+                    <p className='subject'>Class: {subname} </p>
+                    <p className='subject'>{allqusetion.length>1 ?"Subjects":"Subject"} </p>
+                    </div>
+                    :<p className='subject'>No Exam for now</p>
+                    }
+                    
+                    <div>
+                    {
+                     noexam==""?
+                     <div>
+                         <p>{
+                             allqusetion.map((item, i)=>(
+                                 <span>
+                                     {
+                                         item.length?
+                                         <span className={`subject ${cur==item.subject?"current":""}`} onClick={()=>{current(i,item[0].subject, item[0].commence, item[0].grade)}}>
+                                             <div className='mt-1'>
+                                                 <p >{item[0].grade}</p>
+                                             </div>
+                                             {item[0].subject}
+                                             <span style={{borderBottom:"1px solid"}}>
+                                             {item[0].commence==false?` Can't start yet `: cur==item[0].subject?": Started":": Start now"}
+                                             </span>
+                                         </span>
+                                         :<span className={`subject ${cur==item.subject?"current":""}`} onClick={()=>{current(i,item.subject, item.commence, item.grade)}}>
+                                             <div className='mt-1'>
+                                                 {/* <p >{item.grade}</p> */}
+                                             </div>
+                                             {item.subject}
+                                             <span style={{borderBottom:"1px solid"}}>
+                                             {item.commence==false?` Can't start yet `: cur==item.subject?": Started":": Start now"}
+                                             </span>
+                                         </span>
+                                     }
+                                 </span>
+                             ))
+                         }</p>
+                     </div>
+                     :<p>{noexam}</p>
+                     
                     }
                     </div>
                 </div>

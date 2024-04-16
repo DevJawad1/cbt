@@ -3,6 +3,7 @@ import React from 'react'
 import './studentcss.css'
 import logo from '../assets/gomal logo.png'
 import {useNavigate} from 'react-router-dom'
+import axios from "axios"
 const Studentlogin = () => {
     const navigate= useNavigate()
     const [username, setusername] = useState('')
@@ -17,25 +18,49 @@ const Studentlogin = () => {
     }, []);
 
     const submit=()=>{
-        data.map((item, i)=>{
-            if(item.username.toLowerCase()==username.toLowerCase() && item.password.toLowerCase()==password.toLowerCase()){
-                localStorage.setItem('currentstudent', i)
+        // data.map((item, i)=>{
+        //     if(item.username.toLowerCase()==username.toLowerCase() && item.password.toLowerCase()==password.toLowerCase()){
+        //         localStorage.setItem('currentstudent', i)
+        //         Swal.fire({
+        //             title: "Good job!",
+        //             text: "Login successful!",
+        //             icon: "success"
+        //           });
+        //         setTimeout(() => {
+        //             navigate(`/student/${item.fullname}`)
+        //         }, 1000);
+        //     }
+        //     else{
+        //         Swal.fire({
+        //             title: "Good job!",
+        //             text: "Student not found!",
+        //             icon: "error"
+        //           });
+        //     }
+        // })
+        let url = "http://localhost:3000/user/studentlogin"
+        axios.post(url, {username:username, password:password}).then((res)=>{
+            // console.log(res)
+            if(res.data.status){
                 Swal.fire({
                     title: "Good job!",
-                    text: "Login successful!",
+                    text: "User Found!",
                     icon: "success"
-                  });
+                });
+                localStorage.setItem('student', JSON.stringify(res.data.student))
                 setTimeout(() => {
-                    navigate(`/student/${item.fullname}`)
-                }, 1000);
+                    navigate(`/student/${res.data.student.username}`)
+                }, 1500);
             }
             else{
                 Swal.fire({
-                    title: "Good job!",
-                    text: "Student not found!",
+                    title: "Wrong datails",
+                    text: res.data.message,
                     icon: "error"
-                  });
+                });
             }
+        }).catch((err)=>{
+            // console.log(err);
         })
     }
   return (

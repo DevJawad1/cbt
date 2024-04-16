@@ -1,26 +1,38 @@
 import React, { useEffect, useState } from 'react'
 import { useParams, useNavigate, json } from 'react-router-dom'
-// import {}
+import axios from 'axios'
 const Tutor = () => {
     const navigate = useNavigate()
-    // const result = JSON.parse(localStorage.studentresult)
     const { id } = useParams()
     const [result, setresult] = useState([])
+    const tutor = JSON.parse(localStorage.tutor)
+    function combineByClass(array) {
+        let combinedArrays = {};
+    
+        array.forEach(student => {
+            if (!combinedArrays.hasOwnProperty(student.subject)) {
+                combinedArrays[student.subject] = [];
+            }
+            combinedArrays[student.subject].push(student);
+        });
+    
+        return combinedArrays;
+    }
+    
+    
     useEffect(() => {
-        if (localStorage.studentresult) {
-            setresult(JSON.parse(localStorage.studentresult))
-        }
-        result.map((item, i) => {
-            item.questionNoOption.map((qst, id) => {
-                console.log(qst.answer);
-                qst.answer.map((ans, ii) => {
-                    // console.log(ans);
-                })
-            })
+        let urlresult = "http://localhost:3000/user/sendtutorresults"
+        axios.post(urlresult, {tutor:tutor.email}).then((res)=>{
+            console.log(res.data.allresult);
+            let combinedByClass = combineByClass(res.data.allresult);
+    
+            console.log(combinedByClass);
+        }).catch((err)=>{
+            console.log(err);
         })
-        // console.log(result);
-    })
-
+    }, [])
+     
+    
     const [sum, setsum] = useState(0)
     const [push, setpush] = useState([])
     const [qstid, setqstid] = useState('')
@@ -36,54 +48,63 @@ const Tutor = () => {
     const wrong = () => {
 
     }
-    const [tutorqst, settutorqst] = useState([])
-    let alltutorqst = []
-    useEffect(() => {
-        if (localStorage.tutorquestion) {
-            // console.log(JSON.parse(localStorage.tutorquestion));
-            settutorqst(JSON.parse(localStorage.tutorquestion))
-            console.log(JSON.parse(localStorage.tutorquestion));
-            // console.log(tutorqst[1]);
-            // tutorqst[0].map((item, i) => {
-            //     console.log(item);
-            // })
+    const [tutorqst, settutorqst] = useState('')
+    const [eachsub, seteachsub] = useState(Number(0))
+    const access=()=>{
+        setopenqst(true) 
+        // console.log(openqst);
+        let url = "http://localhost:3000/user/sendtutorqst"
+        axios.post(url, {email:tutor.email}).then((res)=>{
 
-        }
-    }, [])
+            settutorqst(res.data.question)
+            console.log(tutorqst);
+            seteachsub(localStorage.currentsubview?localStorage.currentsubview:0)
+            console.log(tutorqst[eachsub].tutor);
+        }).catch((err)=>{
+            console.log(err);
+        })
+    }
+    // useEffect(()=>{
+    //     let url = "http://localhost:3000/user/sendtutorqst"
+    //     axios.post(url, {email:tutor.email}).then((res)=>{
 
-    const [eachsub, seteachsub] = useState(0)
+    //         settutorqst(res.data.question)
+    //         console.log(tutorqst);
+    //         seteachsub(0)
+    //         console.log(tutorqst[eachsub].tutor);
+    //     }).catch((err)=>{
+    //         console.log(err);
+    //     })
+    // })
+   
+    
+    
     const [openqst, setopenqst] = useState(false)
     const [alertcm, setalertcm] = useState('')
-    const commence = (iq) => {
-        console.log(iq);
-        tutorqst.map((item, i) => {
-            item.map((qst, q) => {
-                // alert(qst.commence)
-                if (qst.subject == iq) {
-                    console.log(qst);
-                    if (qst.commence == false) {
-                        qst.commence = true
-                        console.log(qst.commence);
-                        localStorage.setItem('tutorquestion', JSON.stringify(tutorqst))
-                        Swal.fire({
-                            title: "Exam will now be commence!",
-                            text: "You give permission to students",
-                            icon: "success"
-                        });
-                    }
-                    else {
-                        qst.commence = false
-                        localStorage.setItem('tutorquestion', JSON.stringify(tutorqst))
-                        Swal.fire({
-                            title: "Exam will not be commence!",
-                            text: "You withdrawl permission from students",
-                            icon: "success"
-                        });
-                    }
-                }
-            })
+    const commence = (id) => {
+        let url = "http://localhost:3000/user/updateqst"
+        axios.post(url, {id:id}).then((res)=>{
+            console.log(res);
+            if(res.data.status){
+                Swal.fire({
+                    title: 'Allowed',
+                    text: res.data.message,
+                    icon: "success"
+                });
+            }
+            else{
+                Swal.fire({
+                    title: 'Restricted',
+                    text: res.data.message,
+                    icon: "error"
+                });
+            }
+            // console.log(tutorqst);
+            access()
+            localStorage.setItem('currentsubview', eachsub)
+        }).catch((err)=>{
+           console.log(err);
         })
-
     }
     return (
         <div className='tutorpage'>
@@ -93,7 +114,7 @@ const Tutor = () => {
             <div className="mt-2 p-2">
                 <div className="d-flex gap-4">
                     <button className='btn btn-success' onClick={() => { navigate(`/uploadquestion/${id}`) }}>Upload question</button>
-                    <button className='btn btn-success' onClick={() => { setopenqst(true) }}>Give access to Exam</button>
+                    <button className='btn btn-success' onClick={access}>Give access to Exam</button>
                 </div>
                 <div>
                     <p>Your student result</p>
@@ -122,8 +143,8 @@ const Tutor = () => {
                                                                 Number(item.result) + " scrore"
 
                                                                 : qstid == i ?
-                                                                    Number(item.result + sum) :
-                                                                    Number(item.result)
+                                                                Number(item.result + sum) :
+                                                                Number(item.result)
                                                         }</td>
                                                         {
                                                             item.questionNoOption.length>0?
@@ -147,12 +168,7 @@ const Tutor = () => {
                                                                                         </div>
                                                                                     ))
                                                                                 }</div>
-                                                                                : <div>
-                                                                                    {
-                                                                                        // console.log(item.answer)
-                                                                                        // <div></div>
-                                                                                    }
-                                                                                </div>
+                                                                                : null
                                                                         }
                                                                     </div>
                                                                 ))
@@ -163,15 +179,7 @@ const Tutor = () => {
                                                         
                                                     </tr>
                                                 ))
-                                                : <div>
-                                                    {/* {
-                                                        tutorqst[0].map((item, i)=>(
-                                                            <p>{
-                                                                item.subject
-                                                            }</p>
-                                                        ))
-                                                    } */}
-                                                </div>
+                                                : null
                                         }
                                     </tbody>
 
@@ -182,82 +190,52 @@ const Tutor = () => {
                         }
                         {
                             openqst == true ?
-                                <div className="cover tutorcov">
+                                <div className="tutorcov border">
                                     <div className="board tutorbod">
                                         <button onClick={() => { setopenqst(false) }} className='btn '>Close</button>
-                                        {/* <div className="d-flex">
-                                    {
-                                        tutorqst.map((item, i) => (
-                                            item.map((q, iq) => (
-                                                <button onClick={() => { seteachsub(i), console.log(eachsub); }}>
-                                                    {q.subject},{i}
-                                                </button>
-                                            ))
-                                        ))
-                                    }
-                                </div> */}
-                                        <div>
-                                            {
-                                                tutorqst.length > 0 ?
-                                                    tutorqst.map((item, i) => (
-                                                        <div>
-                                                            {
-                                                                item.map((qsts, iq) => (
-                                                                    <div className=''>
-                                                                        <div id="carouselExample" class="carousel slide">
-                                                                            <div class="carousel-inner">
-                                                                                <div class="carousel-item active">
-                                                                                    {
-                                                                                        qsts.tutor == id ?
-                                                                                            <div className='border mt-2 p-2'>
-
-                                                                                                {/* <button>{nestedArray[eachsub].subject}</button> */}
-                                                                                                <div className="d-flex justify-content-between">
-                                                                                                    <p>Subject: {qsts.subject}</p>
-                                                                                                    <button className='btn btn-success' onClick={() => { commence(qsts.subject, iq) }}>{qsts.commence == false ? "Give permission to student" : "Withdral permission from student"}</button>
-                                                                                                </div>
-                                                                                                <p>Qustion: {
-                                                                                                    qsts.question.map((qst, i) => (
-                                                                                                        <div className='border p-2 mt-2'>
-                                                                                                            <p>{qst.question}</p>
-                                                                                                            <p>{qst.Ao}</p>
-                                                                                                            <p>{qst.Bo}</p>
-                                                                                                            <p>{qst.Co}</p>
-                                                                                                            <p>{qst.Do}</p>
-                                                                                                        </div>
-                                                                                                    ))
-                                                                                                }</p>
-                                                                                            </div>
-                                                                                            : <div>You dont have quetion</div>
-                                                                                    }
-                                                                                </div>
-                                                                                <div class="carousel-item">
-
-                                                                                </div>
-                                                                                <div class="carousel-item">
-
-                                                                                </div>
-                                                                            </div>
-                                                                            <button class="carousel-control-prev car-btn" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
-                                                                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                                                                <span class="visually-hidden">Previous</span>
-                                                                            </button>
-                                                                            <button class="carousel-control-next car-btn" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
-                                                                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                                                                <span class="visually-hidden">Next</span>
-                                                                            </button>
-                                                                        </div>
-
-                                                                    </div>
-                                                                ))
-                                                            }
-                                                        </div>
-                                                    ))
-                                                    : <div className='shadow p-5 text-center'>
-                                                        <p>You haven't set any question</p>
+                                    <div>
+                                        {
+                                            tutorqst.length >0?
+                                                    <div className='d-flex'>
+                                                        {
+                                                            tutorqst.map((qsts, iq) => (
+                                                                <div key={iq}>
+                                                                    <button className='btn' onClick={()=>{seteachsub(Number(iq))}}>{qsts.subject} ({qsts.grade})</button>
+                                                                </div>
+                                                            ))
+                                                        }
                                                     </div>
-                                            }
-                                        </div>
+                                                    
+                                                : <div className='shadow p-5 text-center'>
+                                                    <p>You haven't set any question</p>
+                                                </div>
+                                        }
+
+                                        <div className="carousel-item active">
+                                        {
+                                           eachsub &&  tutorqst[eachsub].tutor == id ?
+                                                <div className='border mt-2 p-2'>
+                                                    <div className="d-flex justify-content-between">
+                                                        <p>Subject: {tutorqst[eachsub].subject}</p>
+                                                        <button className='btn btn-success' onClick={() => { commence(tutorqst[eachsub]._id) }}>{tutorqst[eachsub].commence == false ? "Give permission to student" : "Withdral permission from student"}</button>
+                                                    </div>
+                                                    <div>Qustion: {
+                                                        tutorqst[eachsub].question.map((qst, i) => (
+                                                            <div className='border border-black p-2 mt-2' key={i}>
+                                                                <p className='border-bottom border-black mt-2 bg-light p-2' style={{textTransform:"capitalize"}}>Question:  {qst.question}</p>
+                                                                <p>Options</p>
+                                                                <p>(A) {qst.Ao}</p>
+                                                                <p>[B] {qst.Bo}</p>
+                                                                <p>(D) {qst.Co}</p>
+                                                                <p>[D] {qst.Do}</p>
+                                                            </div>
+                                                        ))
+                                                    }</div>
+                                                </div>
+                                                : <div>You dont have quetion</div>
+                                        }
+                                        </div> 
+                                    </div>
 
                                     </div>
                                 </div>
